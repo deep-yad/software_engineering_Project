@@ -1,6 +1,6 @@
 appId: "Makerspace Inventory App"
 productName: "Electron Next.JS"
-copyright: "Copyright (c) 2023 RBFraphael"
+copyright: "Copyright (c) 2024 Makerspace"
 win:
   target: ["dir", "portable", "zip"]
   icon: "resources/icon.ico"
