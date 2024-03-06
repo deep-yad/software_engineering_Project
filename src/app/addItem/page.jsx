@@ -1,0 +1,118 @@
+'use client'
+import React, { useState } from 'react';
+
+const MachineForm = () => {
+    const [machineName, setMachineName] = useState("");
+    const [description, setDescription] = useState("");
+    const [availableQuantity, setAvailableQuantity] = useState(0);
+    const [hasSubparts, setHasSubparts] = useState(false);
+    const [subParts, setSubParts] = useState([]);
+    const [item, setItem] = useState("");
+    const handleChange = (event) => {
+        const { name, value, type } = event.target;
+        if (type === 'checkbox') {
+        setHasSubparts(event.target.checked);
+        } else {
+        switch (name) {
+            case 'machineName':
+            setMachineName(value);
+            break;
+            case 'description':
+            setDescription(value);
+            break;
+            case 'availableQuantity':
+            setAvailableQuantity(parseInt(value));
+            break;
+            case 'item':
+                setItem(value);
+            break;
+            default:
+            break;
+        }
+        }
+    };
+
+    const handleAddItem = () => {
+        setSubParts([...subParts, item]); // Add an empty string for new input
+        setItem("");
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log({
+        machineName,
+        description,
+        availableQuantity,
+        hasSubparts,
+        subParts,
+        });
+        // Submit data to server or perform other actions here
+    };
+
+    
+    return (
+        <form onSubmit={handleSubmit}>
+        <div className="form-group">
+            <label htmlFor="machineName">Machine Name:</label>
+            <input
+            type="text"
+            name="machineName"
+            value={machineName}
+            onChange={handleChange}
+            required
+            />
+        </div>
+        <div className="form-group">
+            <label htmlFor="description">Description:</label>
+            <textarea
+            name="description"
+            value={description}
+            onChange={handleChange}
+            required
+            />
+        </div>
+        <div className="form-group">
+            <label htmlFor="availableQuantity">Available Quantity:</label>
+            <input
+            type="number"
+            name="availableQuantity"
+            value={availableQuantity}
+            onChange={handleChange}
+            min={0}
+            required
+            />
+        </div>
+        <div className="form-group">
+            <label>
+            <input
+                type="checkbox"
+                name="hasSubparts"
+                checked={hasSubparts}
+                onChange={handleChange}
+            />
+            Has Subparts
+            </label>
+            {hasSubparts && (
+            <div>
+                {subParts.map((subPart, index) => (
+                <p>{subPart}</p>
+                ))}
+                <div className="subpart-item">
+                    <input
+                    type="text"
+                    name="item"
+                    value={item}
+                    onChange={handleChange}
+                    placeholder={`Subpart Name`}
+                    />
+                    <button onClick={handleAddItem}>Add Item</button>
+                </div>
+            </div>
+            )}
+        </div>
+        <button type="submit">Submit</button>
+        </form>
+    );
+};  
+
+export default MachineForm;
