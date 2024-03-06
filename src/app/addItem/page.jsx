@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-
+import axios from 'axios';
 const MachineForm = () => {
     const [machineName, setMachineName] = useState("");
     const [description, setDescription] = useState("");
@@ -36,17 +36,33 @@ const MachineForm = () => {
         setSubParts([...subParts, item]); // Add an empty string for new input
         setItem("");
     };
+    const sendObject = async (new_Item) => {
+        try {
+            const response = await axios.post("/api/create/newMachine", new_Item);
+
+            if (!response.data.success) {
+            throw new Error(response.data.message); // Handle errors from backend
+            }
+
+            console.log("Object sent successfully!");
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log({
-        machineName,
-        description,
-        availableQuantity,
-        hasSubparts,
-        subParts,
-        });
-        // Submit data to server or perform other actions here
+        
+        const new_Item = {
+          machineName: machineName,
+          description: description,
+          availableQuantity: availableQuantity,
+          hasSubparts: hasSubparts,
+          subParts: subParts,
+        };
+        console.log(new_Item);
+        // sendObject(new_Item);
+        
     };
 
     
@@ -95,7 +111,7 @@ const MachineForm = () => {
             {hasSubparts && (
             <div>
                 {subParts.map((subPart, index) => (
-                <p>{subPart}</p>
+                    <p>{index+1}. {subPart}</p>
                 ))}
                 <div className="subpart-item">
                     <input
@@ -105,7 +121,7 @@ const MachineForm = () => {
                     onChange={handleChange}
                     placeholder={`Subpart Name`}
                     />
-                    <button onClick={handleAddItem}>Add Item</button>
+                    <button onClick={handleAddItem} type='button'>Add Item</button>
                 </div>
             </div>
             )}
