@@ -19,12 +19,8 @@ const MachineSchema = new Schema({
     },
     subparts: [
         {
-            subpart_name: {
-                type:String
-            },
-            subpart_available_quantity: {
-                type:Number
-            }
+            subpart_name: String,
+            subpart_available_quantity: Number
         }
     ],
     current: [
