@@ -14,7 +14,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PersonIcon from "@mui/icons-material/Person";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
 
 const drawerWidth = 200;
 
@@ -64,7 +68,7 @@ const Nav = () => {
             <Link href="/dashboard">
               <ListItemButton>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Dashboard"} />
               </ListItemButton>
@@ -73,7 +77,7 @@ const Nav = () => {
           <ListItem key={"Issues"} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <InboxIcon />
+                <FeaturedPlayListIcon />
               </ListItemIcon>
               <ListItemText primary={"Issues"} />
             </ListItemButton>
@@ -82,34 +86,46 @@ const Nav = () => {
             <Link href="/showPerson">
               <ListItemButton>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <PersonIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Persons"} />
               </ListItemButton>
             </Link>
           </ListItem>
           <ListItem key={"Machines"} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Machines"} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        {/* <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
+            <Link href="showMachine">
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <CoffeeMakerIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={"Machines"} />
               </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
+            </Link>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem key={"Add Person"} disablePadding>
+            <Link href="/createPerson">
+              <ListItemButton>
+                <ListItemIcon>
+                  <PersonAddIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Add Peson"} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem key={"Add Machine"} disablePadding>
+            <Link href="/addMachine">
+              <ListItemButton>
+                <ListItemIcon>
+                  <CoffeeMakerIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Add Machine"} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        </List>
       </Drawer>
     </Box>
   );
