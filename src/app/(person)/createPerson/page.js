@@ -92,59 +92,143 @@ const page = () => {
       throw new Error("Failed to add person.");
     }
     router.refresh();
-    router.push("/inuse");
+    router.push("/showPerson");
   };
 
   return (
-    <div>
-      <div className="container">
-        <style>{styles}</style>
-        <h2 className="title">Enter Person Details</h2>
-        <form className="form" method="post" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="label" htmlFor="mobile_number">
-              Email ID
-            </label>
-            <input
-              className="input"
-              id="email_id"
-              name="email_id"
-              type="text"
-              value={formData.email_id}
-              onChange={handleChange}
-            />
+    // <div>
+    //   <div className="container">
+    //     <style>{styles}</style>
+    //     <h2 className="title">Enter Person Details</h2>
+    //     <form className="form" method="post" onSubmit={handleSubmit}>
+    //       <div className="form-group">
+    //         <label className="label" htmlFor="mobile_number">
+    //           Email ID
+    //         </label>
+    //         <input
+    //           className="input"
+    //           id="email_id"
+    //           name="email_id"
+    //           type="text"
+    //           value={formData.email_id}
+    //           onChange={handleChange}
+    //         />
+    //       </div>
+    //       <div className="form-group">
+    //         <label className="label" htmlFor="name">
+    //           Name
+    //         </label>
+    //         <input
+    //           className="input"
+    //           id="person_name"
+    //           name="person_name"
+    //           type="text"
+    //           value={formData.person_name}
+    //           onChange={handleChange}
+    //         />
+    //       </div>
+    //       <div className="form-group">
+    //         <label className="label" htmlFor="email">
+    //           Mobile Number
+    //         </label>
+    //         <input
+    //           className="input"
+    //           id="email"
+    //           name="mobile_number"
+    //           type="text"
+    //           value={formData.mobile_number}
+    //           onChange={handleChange}
+    //         />
+    //       </div>
+    //       <button className="button" type="submit">
+    //         Create Person
+    //       </button>
+    //       {/* <input type="submit" value={"Add Person"} /> */}
+    //     </form>
+    //   </div>
+    // </div>
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+          <div className="max-w-md mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-bold text-3xl text-gray-900">
+                Enter Person Details
+              </h2>
+            </div>
+            <form
+              className="form space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+              method="post"
+              onSubmit={handleSubmit}
+            >
+              <div className="flex -mx-3">
+                <div className="w-full px-3 mb-3">
+                  <label
+                    className="text-s font-semibold px-1"
+                    htmlFor="email_id"
+                  >
+                    Email ID
+                  </label>
+                  <input
+                    className="w-full ml-0 pl-1 pr-3 py-2 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
+                    id="email_id"
+                    name="email_id"
+                    type="text"
+                    value={formData.email_id}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="flex -mx-3">
+                <div className="w-full px-3 mb-3">
+                  <label
+                    className="text-s font-semibold px-1"
+                    htmlFor="person_name"
+                  >
+                    Name
+                  </label>
+                  <input
+                    className="w-full ml-0 pl-1 pr-3 py-2 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
+                    id="person_name"
+                    name="person_name"
+                    type="text"
+                    value={formData.person_name}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="flex -mx-3">
+                <div className="w-full px-3 mb-3">
+                  <label
+                    className="text-s font-semibold px-1"
+                    htmlFor="mobile_number"
+                  >
+                    Mobile Number
+                  </label>
+                  <input
+                    className="w-full ml-0 pl-1 pr-3 py-2 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
+                    id="mobile_number"
+                    name="mobile_number"
+                    type="text"
+                    value={formData.mobile_number}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="flex -mx-3">
+                <div className="w-full px-3 mt-5">
+                  <button
+                    className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                    type="submit"
+                  >
+                    Add Person
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-          <div className="form-group">
-            <label className="label" htmlFor="name">
-              Name
-            </label>
-            <input
-              className="input"
-              id="person_name"
-              name="person_name"
-              type="text"
-              value={formData.person_name}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="label" htmlFor="email">
-              Mobile Number
-            </label>
-            <input
-              className="input"
-              id="email"
-              name="mobile_number"
-              type="text"
-              value={formData.mobile_number}
-              onChange={handleChange}
-            />
-          </div>
-          <button className="button" type="submit">
-            Create Person
-          </button>
-          {/* <input type="submit" value={"Add Person"} /> */}
-        </form>
+        </div>
       </div>
     </div>
   );
