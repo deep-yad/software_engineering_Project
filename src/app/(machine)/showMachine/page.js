@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 
 function YourComponent() {
   const [machines, setMachines] = useState([]);
@@ -9,9 +9,9 @@ function YourComponent() {
     async function fetchData() {
       const response = await fetch("/api/machine");
       const data = await response.json();
-      console.log(data.machine);
+      // console.log(data.machine);
       setMachines(data.machine);
-      console.log(machines);
+      // console.log(machines);
     }
 
     fetchData();
@@ -34,52 +34,59 @@ function YourComponent() {
           </tr>
         </thead>
         <tbody>
-          {machines && machines.map((machine) =>
-            flattenSubparts(machine.subparts).map((subpart, index) => (
-              <tr key={index} className="border border-gray-800">
-                {index === 0 && ( // Only render machine details for the first subpart
-                  <>
-                    <td
-                      className="border border-gray-800 px-4 py-2"
-                      rowSpan={flattenSubparts(machine.subparts).length}
+          {machines &&
+            machines.map((machine) =>
+              flattenSubparts(machine.subparts).map((subpart, index) => (
+                <tr key={index} className="border border-gray-800">
+                  {index === 0 && ( // Only render machine details for the first subpart
+                    <>
+                      <td
+                        className="border border-gray-800 px-4 py-2"
+                        rowSpan={flattenSubparts(machine.subparts).length}
+                      >
+                        {machine.machine_name}
+                      </td>
+                      <td
+                        className="border border-gray-800 px-4 py-2"
+                        rowSpan={flattenSubparts(machine.subparts).length}
+                      >
+                        {machine.description}
+                      </td>
+                      <td
+                        className="border border-gray-800 px-4 py-2"
+                        rowSpan={flattenSubparts(machine.subparts).length}
+                      >
+                        {machine.total_quantity}
+                      </td>
+                      <td
+                        className="border border-gray-800 px-4 py-2"
+                        rowSpan={flattenSubparts(machine.subparts).length}
+                      >
+                        {machine.available_quantity}
+                      </td>
+                    </>
+                  )}
+                  <td className="border border-gray-800 px-4 py-2">
+                    {subpart.machine_id}
+                  </td>
+                  <td className="border border-gray-800 px-4 py-2">
+                    {" "}
+                    <Link
+                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                      href={`/updateMachine/${machine._id}`}
                     >
-                      {machine.machine_name}
-                    </td>
-                    <td
-                      className="border border-gray-800 px-4 py-2"
-                      rowSpan={flattenSubparts(machine.subparts).length}
+                      <button>Edit</button>
+                    </Link>
+                    <Link
+                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
+                      href={`/updateMachine/${machine._id}`}
                     >
-                      {machine.description}
-                    </td>
-                    <td
-                      className="border border-gray-800 px-4 py-2"
-                      rowSpan={flattenSubparts(machine.subparts).length}
-                    >
-                      {machine.total_quantity}
-                    </td>
-                    <td
-                      className="border border-gray-800 px-4 py-2"
-                      rowSpan={flattenSubparts(machine.subparts).length}
-                    >
-                      {machine.available_quantity}
-                    </td>
-                  </>
-                )}
-                <td className="border border-gray-800 px-4 py-2">
-                  {subpart.machine_id}
-                </td>
-                <td className="border border-gray-800 px-4 py-2">
-                  {" "}
-                  <Link  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" href={`/updateMachine/${machine._id}`}>
-                    <button>Edit</button>
-                  </Link>
-                  <Link  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2" href={`/updateMachine/${machine._id}`}>
-                    <button>Delete</button>
-                  </Link>
-                </td>
-              </tr>
-            ))
-          )}
+                      <button>Delete</button>
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            )}
         </tbody>
       </table>
     </div>

@@ -26,6 +26,8 @@ const styles = `
 }
 
 .form-group {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 
@@ -34,6 +36,8 @@ const styles = `
 }
 
 .input {
+  align-self: flex-end;
+  margin-left: 1rem;
   padding: 0.5rem;
   width: 60%;
   font-size: 1rem;
@@ -61,7 +65,7 @@ const page = () => {
   const defaultFormData = {
     email_id: "",
     person_name: "",
-    mobile_number: "0000000000",
+    mobile_number: "",
   };
 
   const [formData, setFormData] = useState(defaultFormData);

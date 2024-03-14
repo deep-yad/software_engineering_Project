@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+
 const getPersons = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/Persons", {

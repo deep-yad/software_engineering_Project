@@ -5,13 +5,13 @@ import Nav from "@/app/(components)/Nav";
 export default function Dashboard() {
   return (
     <>
-      <div className="header h-16 flex items-center px-4 bg-gray-300">
+      {/* <div className="header h-16 flex items-center px-4 bg-gray-300">
         Header
-      </div>
+      </div> */}
       <div className="dashboard-container flex flex-1 h-screen">
-        <div className="sidebar w-20 bg-purple-700">
+        {/* <div className="sidebar w-20 bg-purple-700">
           <div className="sidebar-content p-2 text-white">Sidebar</div>
-        </div>
+        </div> */}
 
         <div className="main-content flex-1 p-4 bg-gray-200 ">
           <div className="row1 flex mb-4 h-1/5">

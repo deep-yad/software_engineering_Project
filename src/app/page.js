@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/app/(components)/Nav";
+import Dashboard from "./dashboard/page";
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <a href="/issue">here</a>
+    <main>
+      {/* <a href="/issue">here</a> */}
+      <Dashboard />
     </main>
   );
 }
