@@ -9,9 +9,9 @@ function YourComponent() {
     async function fetchData() {
       const response = await fetch("/api/machine");
       const data = await response.json();
-      // console.log(data.machine);
+      console.log(data.machine);
       setMachines(data.machine);
-      // console.log(machines);
+      console.log(machines);
     }
 
     fetchData();

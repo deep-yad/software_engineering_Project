@@ -8,6 +8,9 @@ const MachineSchema = new Schema({
     type: Number,
     required: [true, "Machine Id required"],
   },
+  machine_name: {
+    type: String,
+  },
   description: {
     type: String,
   },
