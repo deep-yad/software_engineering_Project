@@ -7,7 +7,8 @@ export const dynamic = "force-static";
 export async function GET() {
   try {
     const machine = await Machine.find();
-    return NextResponse.json({ machine }, { status: 200 });
+    // console.log(machine);
+    return Response.json(machine);
   } catch (error) {
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
