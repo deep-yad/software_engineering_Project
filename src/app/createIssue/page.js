@@ -81,11 +81,11 @@ const page = () => {
         (machine) => machine.id === selectedMachineId
       );
       console.log(selectedMachineId)
-        setFormData({ ...formData, machine_id: selectedMachineObject._id });
+        setFormData({ ...formData, machine_id: selectedMachineId });
       console.log("++_+",formData);
       selectedMachine=selectedMachineObject
       setSelectedMachine(selectedMachine);
-      console.log(selectedMachine);
+      // console.log(selectedMachine);
     }
     
     
@@ -94,6 +94,7 @@ const page = () => {
     
     const handlePersonChange = (event) => {
       const selectedPersonId = event.target.value;
+      console.log("++_+",formData);
       const selectedPersonObject = persons.find(
         (person) => person._id === selectedPersonId
         );
