@@ -1,9 +1,23 @@
-"use client"
+"use client";
 import { React, useState, useEffect } from "react";
 import Link from "next/link";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import HistoryIcon from "@mui/icons-material/History";
+import EmailIcon from "@mui/icons-material/Email";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useRouter } from "next/navigation";
+
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Typography,
+  CloseIcon,
+} from "@mui/material";
 
 const getPersons = async () => {
   try {
@@ -30,10 +44,14 @@ const deletePerson = async (id) => {
   }
 };
 
-const page =  () => {
-  
+const page = () => {
   let [persons, setPersons] = useState(null);
-
+  const [currentIssues, setCurrentIssues] = useState([]);
+  const [completedIssues, setCompletedIssues] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false); // State for popup visibility
+  const [selectedPerson, setSelectedPerson] = useState(null);
+  const [selectedPersonId, setSelectedPersonId] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const getPersons = async () => {
       const response = await fetch("/api/Persons", {
@@ -47,6 +65,43 @@ const page =  () => {
     };
     getPersons();
   }, []);
+
+  const handlePopupOpen = (person) => {
+    setSelectedPerson(person);
+    setSelectedPersonId(person._id);
+    console.log(person);
+    setOpenPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setSelectedPerson(null);
+    setSelectedPersonId(null);
+    setOpenPopup(false);
+  };
+
+  const handleEmailSend = async (userId, issueId) => {
+    console.log(userId);
+    const formData = { userId: userId,issueId: issueId };
+    const res = await fetch(`http://localhost:3000/api/mail`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+    if (res.ok) {
+      router.refresh();
+    }
+  };
+  const handleCurrentIssue = async (userId, issueId) => {
+    console.log(userId);
+    const formData = { userId: userId,issueId: issueId };
+    const res = await fetch(`http://localhost:3000/api/updateIssue`, {
+      method: "PUT",
+      body: JSON.stringify(formData),
+    });
+    if (res.ok) {
+      router.refresh();
+    }
+  };
+
 
   return (
     <>
@@ -64,7 +119,7 @@ const page =  () => {
                 Mobile No
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                History
+                See History
               </th>
               <th
                 scope="col"
@@ -92,18 +147,11 @@ const page =  () => {
                 </td>
                 <td className="px-6 py-4">{person.mobile_number}</td>
                 <td className="px-6 py-4">
-                  <div className="flex gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
-                      Electrical
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
-                      Electronics
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">
-                      Mechanical
-                    </span>
-                  </div>
+                  <Button onClick={() => handlePopupOpen(person)}>
+                    <HistoryIcon></HistoryIcon> See History
+                  </Button>
                 </td>
+
                 <td className="px-6 py-4">
                   <div className="flex justify-end gap-4">
                     <Link href={`/deletePerson/${person._id}`}>
@@ -149,6 +197,45 @@ const page =  () => {
             ))}
           </tbody>
         </table>
+        <Dialog open={openPopup} onClose={handlePopupOpen} maxWidth="md" fullWidth>
+      <DialogTitle>
+        {selectedPerson && selectedPerson.person_name}'s Details
+        <IconButton onClick={handlePopupClose} aria-label="close">
+        </IconButton>
+      </DialogTitle>
+      <DialogContent dividers>
+        <Typography variant="body2">Current Items:</Typography>
+        <ul>
+          {selectedPerson &&
+            selectedPerson.current &&
+            selectedPerson.current.map((item, index) => (
+              <li key={index}>
+                {item._id}
+                <Button onClick={() => handleEmailSend(selectedPersonId, item._id)}>
+                  <EmailIcon />
+                  Send Warning mail
+                </Button>
+                <Button onClick={() => handleCurrentIssue(selectedPersonId, item._id)}><DeleteIcon/>
+                   Remove 
+                </Button>
+              </li>
+            ))}
+        </ul>
+        <Typography variant="body2">Completed Items:</Typography>
+        <ul>
+          {selectedPerson &&
+            selectedPerson.completed &&
+            selectedPerson.completed.map((item, index) => (
+              <li key={index}>{item._id}</li>
+            ))}
+        </ul>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handlePopupClose} color="primary">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
       </div>
     </>
   );
