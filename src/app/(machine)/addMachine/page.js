@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const MachineForm = () => {
@@ -39,23 +39,8 @@ const MachineForm = () => {
     }
   };
 
-  const handleAddItem = () => {
-    setSubParts([...subParts, item]);
-    setItem("");
-  };
-
   const sendObject = async (new_Item) => {
-    // try {
-    //     const response = await axios.post("/api/create/newMachine",  JSON.stringify({new_Item});
-    // //   const response = await axios.post("/api/create/newMachine",  JSON.stringify({new_Item});
-    //   if (!response.data.success) {
-    //     throw new Error(response.data.message); // Handle errors from backend
-    //   }
-
-    //   console.log("Object sent successfully!");
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
+    
     const res = await fetch("/api/machine", {
       method: "POST",
       body: JSON.stringify(new_Item),
@@ -78,11 +63,51 @@ const MachineForm = () => {
       totalQuantity: totalQuantity,
       availableQuantity: availableQuantity,
       hasSubparts: hasSubparts,
-      subParts: subParts,
+      subParts: hasSubparts?selectedMachine.id:'',
     };
+    console.log(newItem);
 
     sendObject(newItem);
   };
+
+  let [machines, setMachines] = useState(null);
+
+let [selectedMachine, setSelectedMachine] = useState(null);
+
+const handleMachineChange = (event) => {
+  const selectedMachineId = event.target.value;
+  const selectedMachineObject = machines.find(
+    (machine) => machine.id === selectedMachineId
+  );
+  console.log(selectedMachineId);
+  selectedMachine = selectedMachineObject;
+  setSelectedMachine(selectedMachine);
+  console.log(selectedMachine);
+};
+    
+
+  useEffect(() => {
+    const names = [];
+    const getMachine = async () => {
+      const response = await fetch("/api/machine", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      for (let i = 0; i < data.length; i++) {
+        names.push({ name: data[i].machine_name, id: data[i]._id });
+      }
+      machines = names;
+      setMachines(machines);
+      // console.log(data);
+    };
+    getMachine();
+  }, []);
+
+
+
+
+
 
   return (
     <div className="bg-orange-50 min-h-screen flex items-center justify-center">
@@ -168,29 +193,19 @@ const MachineForm = () => {
               <span>Is Subparts</span>
             </label>
             {hasSubparts && (
-              <div className="mt-2">
-                {subParts.map((subPart, index) => (
-                  <p key={index} className="text-gray-700">
-                    {index + 1}. {subPart}
-                  </p>
-                ))}
-                <div className="flex items-center mt-2">
-                  <input
-                    type="text"
-                    name="item"
-                    value={item}
-                    onChange={handleChange}
-                    placeholder="Machine Id"
-                    className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                  <button
-                    onClick={handleAddItem}
-                    type="button"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-r mx-2 hover:bg-blue-600 focus:outline-none"
-                  >
-                    Add
-                  </button>
-                </div>
+              <div>
+                <select
+                  value={selectedMachine?.id || ""}
+                  onChange={handleMachineChange}
+                >
+                  <option value="">Select Parent Machine</option>
+                  {machines &&
+                    machines.map((machine) => (
+                      <option key={machine.id} value={machine.id}>
+                        {machine.name}
+                      </option>
+                    ))}
+                </select>
               </div>
             )}
           </div>

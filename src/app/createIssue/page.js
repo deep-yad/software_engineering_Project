@@ -99,9 +99,9 @@ const page = () => {
         (person) => person._id === selectedPersonId
         );
         selectedPerson = selectedPersonObject;
-        setFormData({ ...formData, person_id: selectedPersonObject.email_id });
+        setFormData({ ...formData, person_id: selectedPersonObject._id });
       setSelectedPerson(selectedPerson);
-      // console.log("++",selectedPerson);
+      console.log("++",formData);
     }
 
 

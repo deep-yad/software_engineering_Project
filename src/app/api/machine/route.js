@@ -35,17 +35,17 @@ export async function POST(req) {
     console.log("Available Quantity:", availableQuantity);
     console.log("Has Subparts:", hasSubparts);
     //console.log("Subparts:", subParts);
-    const subPartsData = subParts.map(subPart => ({
-      machine_id: subPart
-    }));
-    console.log(subPartsData)
+    // const subPartsData = subParts.map(subPart => ({
+    //   machine_id: subPart
+    // }));
+    console.log(subParts)
     const newMachine = new Machine({
       machine_id: 13,
       machine_name: machineName,
       description: description,
       total_quantity: totalQuantity,
       available_quantity: availableQuantity,
-      subparts:subPartsData,
+      subparts:{subParts},
         current: [{ issue_id: 0 }], // Initialize with empty objects containing issue_id
         completed: [{ issue_id: 1 }]
     });
