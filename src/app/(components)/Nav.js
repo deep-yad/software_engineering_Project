@@ -93,7 +93,7 @@ const Nav = () => {
             </Link>
           </ListItem>
           <ListItem key={"Machines"} disablePadding>
-            <Link href="showMachine">
+            <Link href="/showMachine">
               <ListItemButton>
                 <ListItemIcon>
                   <CoffeeMakerIcon />

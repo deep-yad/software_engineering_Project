@@ -83,6 +83,12 @@ function YourComponent() {
                     >
                       <button>Delete</button>
                     </Link>
+                    <Link
+                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
+                      href={`/orders/${machine._id}`}
+                    >
+                      <button>Orders</button>
+                    </Link>
                   </td>
                 </tr>
               ))
