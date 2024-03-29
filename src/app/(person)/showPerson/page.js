@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import { React, useState, useEffect } from "react";
 import Link from "next/link";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -29,16 +30,23 @@ const deletePerson = async (id) => {
   }
 };
 
-const page = async () => {
-  const data = await getPersons();
-  console.log(data);
+const page =  () => {
+  
+  let [persons, setPersons] = useState(null);
 
-  // Make sure we have persons needed for production build.
-  if (!data?.persons) {
-    return <p>No persons.</p>;
-  }
+  useEffect(() => {
+    const getPersons = async () => {
+      const response = await fetch("/api/Persons", {
+        method: "GET",
+      });
 
-  const persons = data.persons;
+      const data = await response.json();
+      persons = data;
+      setPersons(persons);
+      console.log(persons);
+    };
+    getPersons();
+  }, []);
 
   return (
     <>
