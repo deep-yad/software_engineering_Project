@@ -19,6 +19,7 @@ export async function POST(req) {
     const issueData = body.new_Item;
       console.log("++",issueData);
     await Issue.create(issueData);
+    
 
     return NextResponse.json({ message: "issue Created" }, { status: 201 });
   } catch (err) {
