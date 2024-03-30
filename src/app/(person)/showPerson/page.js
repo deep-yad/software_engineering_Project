@@ -52,6 +52,10 @@ const page = () => {
   const [openPopup, setOpenPopup] = useState(false); // State for popup visibility
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [selectedPersonId, setSelectedPersonId] = useState(null);
+  let [machineDetailsArray, setMachineDetailsArray] = useState([]);
+  let [completedMachineDetailsArray, setcompletedMachineDetailsArray] = useState([]);
+  const [selectedIssueDuedate, setSelectedIssueDuedate] = useState(null);
+
   const router = useRouter();
   useEffect(() => {
     const getPersons = async () => {
@@ -66,6 +70,55 @@ const page = () => {
     };
     getPersons();
   }, []);
+
+  
+  useEffect(() => {
+    const fetchMachineDetailsForCurrentItems = async () => {
+      if (!selectedPerson) return;
+      const updatedMachineDetailsArray = await Promise.all(
+        selectedPerson.current.map(async (item) => {
+          const machineDetails = await handleGetIssueDetails(item.issue_id);
+          return {
+            itemId: item._id,
+            machineDetails: machineDetails,
+          };
+        })
+      );
+      console.log(updatedMachineDetailsArray);
+      setMachineDetailsArray(updatedMachineDetailsArray);
+      console.log(machineDetailsArray);
+    };
+    const fetchMachineDetailsForCompletedItems = async () => {
+      if (!selectedPerson) return;
+      const updatedCompletedMachineDetailsArray = await Promise.all(
+        selectedPerson.completed.map(async (item) => {
+          const machineDetails = await handleGetIssueDetails(item.issue_id);
+          return {
+            itemId: item._id,
+            machineDetails: machineDetails,
+          };
+        })
+      );
+      console.log(updatedCompletedMachineDetailsArray);
+      setcompletedMachineDetailsArray(updatedCompletedMachineDetailsArray)
+      console.log(completedMachineDetailsArray);
+    };
+
+    fetchMachineDetailsForCurrentItems().catch((error) => {
+      console.error("Error fetching machine details:", error);
+    });
+    fetchMachineDetailsForCompletedItems().catch((error) => {
+      console.error("Error fetching machine details:", error);
+    });
+  }, [selectedPerson]);
+
+  useEffect(() => {
+    console.log(machineDetailsArray);
+  }, [machineDetailsArray]);
+  useEffect(() => {
+    console.log(machineDetailsArray);
+  }, [completedMachineDetailsArray]);
+  
 
   const handlePopupOpen = (person) => {
     setSelectedPerson(person);
@@ -101,6 +154,44 @@ const page = () => {
     if (res.ok) {
     }
     router.refresh();
+  };
+  const handleGetIssueDetails = async (issueId) => {
+    const res = await fetch(`http://localhost:3000/api/Issues/${issueId}`, {
+      method: "GET",
+    });
+    const data = await res.json();
+    const machine_id = data.foundIssue.machine_id;
+    console.log(machine_id);
+    console.log(data.foundIssue.due_date);
+    const res2 = await fetch(
+      `http://localhost:3000/api/machine/${machine_id}`,
+      {
+        method: "GET",
+      }
+    );
+    const data2 = await res2.json();
+    console.log(data2.foundMachine.machine_name);
+    return {
+      machineName: data2.foundMachine.machine_name,
+      dueDate: data.foundIssue.due_date,
+    };
+    if (res.ok) {
+    }
+    router.refresh();
+  };
+
+  const fetchMachineDetailsForCurrentItems = async () => {
+    const machineDetailsPromises = selectedPerson.current.map(async (item) => {
+      const machineDetails = await handleGetIssueDetails(item.issue_id);
+      console.log(machineDetails);
+      return {
+        itemId: item.issue_id,
+        machineDetails: machineDetails,
+      };
+    });
+
+    // Wait for all promises to resolve
+    return await Promise.all(machineDetailsPromises);
   };
 
   return (
@@ -180,14 +271,14 @@ const page = () => {
           <DialogContent dividers>
             <Typography variant="body2">Current Items:</Typography>
             <ul>
-              {selectedPerson &&
-                selectedPerson.current &&
-                selectedPerson.current.map((item, index) => (
+            {machineDetailsArray &&
+                machineDetailsArray.map((item, index) => (
                   <li key={index}>
-                    {item._id}
+                    <span className="mr-4">Machine Name: {item.machineDetails.machineName}</span>
+                    <span className="mx-4">Due Data: {item.machineDetails.dueDate}</span>
                     <Button
                       onClick={() =>
-                        handleEmailSend(selectedPersonId, item._id)
+                        handleEmailSend(selectedPersonId, item.itemId)
                       }
                     >
                       <EmailIcon />
@@ -195,7 +286,7 @@ const page = () => {
                     </Button>
                     <Button
                       onClick={() =>
-                        handleCurrentIssue(selectedPersonId, item._id)
+                        handleCurrentIssue(selectedPersonId, item.itemId)
                       }
                     >
                       <DeleteIcon />
@@ -206,10 +297,11 @@ const page = () => {
             </ul>
             <Typography variant="body2">Completed Items:</Typography>
             <ul>
-              {selectedPerson &&
-                selectedPerson.completed &&
-                selectedPerson.completed.map((item, index) => (
-                  <li key={index}>{item._id}</li>
+            {completedMachineDetailsArray &&
+                completedMachineDetailsArray.map((item, index) => (
+                  <li key={index}>
+                    <span className="mr-4">Machine Name: {item.machineDetails.machineName}</span>
+                  </li>
                 ))}
             </ul>
           </DialogContent>
