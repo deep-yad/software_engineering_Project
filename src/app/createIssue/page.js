@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 export const dynamic = "force-static";
 
 const page = () => {
+  const router = useRouter();
+
   const defaultFormData = {
     issue_id: "0",
     machine_id: "0",
@@ -16,8 +18,12 @@ const page = () => {
   };
 
   let [formData, setFormData] = useState(defaultFormData);
+  let [selectedPerson, setSelectedPerson] = useState(null);
+  let [selectedMachine, setSelectedMachine] = useState(null);
   let [machines, setMachines] = useState([]);
+  let [issue_id, set_issue_id] = useState(null);
   let [persons, setPersons] = useState([]);
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -28,6 +34,21 @@ const page = () => {
     }));
   };
 
+  const updatePerson = async (person) => {
+    const res = await fetch(`http://localhost:3000/api/Persons/${person._id}`, {
+      method: "PUT",
+      body: JSON.stringify({ formData: person }),
+      //@ts-ignore
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(res);
+    if (!res.ok) {
+      throw new Error("Failed to update person.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await fetch("/api/Issues", {
@@ -36,9 +57,20 @@ const page = () => {
       //@ts-ignore
       "Content-Type": "application/json",
     });
-    if (!res.ok) {
+
+    if (res.ok) {
+      const issue = await res.json();
+      console.log(issue);
+      setSelectedPerson((prevPerson) => ({
+        ...prevPerson,
+        current: [...prevPerson.current, { issue_id: issue.id }],
+      }));
+      updatePerson(selectedPerson);
+    } else {
       throw new Error("Failed to create ticket");
     }
+
+    router.refresh();
   };
 
   useEffect(() => {
@@ -47,7 +79,7 @@ const page = () => {
       const response = await fetch("/api/machine", {
         method: "GET",
       });
-      
+
       const data = await response.json();
       for (let i = 0; i < data.length; i++) {
         names.push({ name: data[i].machine_name, id: data[i]._id });
@@ -57,56 +89,42 @@ const page = () => {
     };
 
     const getPersons = async () => {
-      
-        const response = await fetch("/api/Persons", {
-          method: "GET",
-        });
-        
+      const response = await fetch("/api/Persons", {
+        method: "GET",
+      });
+
       const data = await response.json();
       persons = data;
       setPersons(persons);
-      // console.log(persons);
-    }
+    };
+
     getMachine();
     getPersons();
   }, []);
-  
 
+  const handleMachineChange = (event) => {
+    const selectedMachineId = event.target.value;
+    const selectedMachineObject = machines.find(
+      (machine) => machine.id === selectedMachineId
+    );
+    console.log(selectedMachineId);
+    setFormData({ ...formData, machine_id: selectedMachineId });
+    console.log("++_+", formData);
+    selectedMachine = selectedMachineObject;
+    setSelectedMachine(selectedMachine);
+  };
 
-    let [selectedMachine, setSelectedMachine] = useState(null);
-
-    const handleMachineChange = (event) => {
-      const selectedMachineId = event.target.value;
-      const selectedMachineObject = machines.find(
-        (machine) => machine.id === selectedMachineId
-      );
-      console.log(selectedMachineId)
-        setFormData({ ...formData, machine_id: selectedMachineId });
-      console.log("++_+",formData);
-      selectedMachine=selectedMachineObject
-      setSelectedMachine(selectedMachine);
-      // console.log(selectedMachine);
-    }
-    
-    
-    
-    let [selectedPerson, setSelectedPerson] = useState(null);
-    
-    const handlePersonChange = (event) => {
-      const selectedPersonId = event.target.value;
-      console.log("++_+",formData);
-      const selectedPersonObject = persons.find(
-        (person) => person._id === selectedPersonId
-        );
-        selectedPerson = selectedPersonObject;
-        setFormData({ ...formData, person_id: selectedPersonObject.email_id });
-      setSelectedPerson(selectedPerson);
-      // console.log("++",selectedPerson);
-    }
-
-
-
-
+  const handlePersonChange = (event) => {
+    const selectedPersonId = event.target.value;
+    console.log("++_+", formData);
+    const selectedPersonObject = persons.find(
+      (person) => person._id === selectedPersonId
+    );
+    selectedPerson = selectedPersonObject;
+    setFormData({ ...formData, person_id: selectedPersonObject._id });
+    setSelectedPerson(selectedPerson);
+    console.log("++", formData);
+  };
 
   return (
     <div>

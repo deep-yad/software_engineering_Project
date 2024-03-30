@@ -6,6 +6,7 @@ export async function PUT(req, res) {
   try {
     console.log("okkkkkkkkkkk");
     const { userId, issueId } = await req.json();
+    console.log(issueId);
     const person = await Person.findById(userId);
     if (!person) {
       return NextResponse.json(
@@ -13,20 +14,20 @@ export async function PUT(req, res) {
         { status: 500 }
       );
     }
-    
+    console.log(person.current);
     const currentIssueIndex = person.current.findIndex(
-      (item) => item.issue_id === parseInt(issueId)
+      (item) => item._id.toString() === issueId.toString()
     );
     console.log(currentIssueIndex);
     if (currentIssueIndex === -1) {
       return NextResponse.json({ message: "issue not found" }, { status: 500 });
     }
     // const currentIssueIndex=0;
-    const movedIssue = person.completed.splice(currentIssueIndex, 1)[0];
-    person.current.push(movedIssue);
+    const movedIssue = person.current.splice(currentIssueIndex, 1)[0];
+    person.completed.push(movedIssue);
+    console.log(person.completed);
 
     await person.save();
-   
 
     return NextResponse.json(
       { message: "Issue moved to completed successfully" },

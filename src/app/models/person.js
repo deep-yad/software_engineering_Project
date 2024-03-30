@@ -17,12 +17,12 @@ const PersonSchema = new Schema({
   },
   current: [
     {
-      issue_id: Number,
+      issue_id: Schema.Types.ObjectId,
     },
   ],
   completed: [
     {
-      issue_id: Number,
+      issue_id: Schema.Types.ObjectId,
     },
   ],
 });

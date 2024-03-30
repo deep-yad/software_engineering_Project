@@ -18,9 +18,12 @@ export async function POST(req) {
     console.log("problem");
     const issueData = body.formData;
 
-    await Issue.create(issueData);
+    const result = await Issue.create(issueData);
 
-    return NextResponse.json({ message: "issue Created" }, { status: 201 });
+    return NextResponse.json(
+      { message: "issue Created", id: result._id },
+      { status: 201 }
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json({ message: "Error", err }, { status: 500 });

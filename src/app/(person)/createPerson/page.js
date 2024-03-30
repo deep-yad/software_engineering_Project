@@ -96,57 +96,6 @@ const page = () => {
   };
 
   return (
-    // <div>
-    //   <div className="container">
-    //     <style>{styles}</style>
-    //     <h2 className="title">Enter Person Details</h2>
-    //     <form className="form" method="post" onSubmit={handleSubmit}>
-    //       <div className="form-group">
-    //         <label className="label" htmlFor="mobile_number">
-    //           Email ID
-    //         </label>
-    //         <input
-    //           className="input"
-    //           id="email_id"
-    //           name="email_id"
-    //           type="text"
-    //           value={formData.email_id}
-    //           onChange={handleChange}
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <label className="label" htmlFor="name">
-    //           Name
-    //         </label>
-    //         <input
-    //           className="input"
-    //           id="person_name"
-    //           name="person_name"
-    //           type="text"
-    //           value={formData.person_name}
-    //           onChange={handleChange}
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <label className="label" htmlFor="email">
-    //           Mobile Number
-    //         </label>
-    //         <input
-    //           className="input"
-    //           id="email"
-    //           name="mobile_number"
-    //           type="text"
-    //           value={formData.mobile_number}
-    //           onChange={handleChange}
-    //         />
-    //       </div>
-    //       <button className="button" type="submit">
-    //         Create Person
-    //       </button>
-    //       {/* <input type="submit" value={"Add Person"} /> */}
-    //     </form>
-    //   </div>
-    // </div>
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>

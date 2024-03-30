@@ -8,13 +8,13 @@ function YourComponent() {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch("/api/machine", {
-        method:"GET",
+        method: "GET",
       });
       const data = await response.json();
       console.log(data);
       machines = data;
       setMachines(machines);
-      console.log("***",machines);
+      console.log("***", machines);
     }
 
     fetchData();
@@ -96,6 +96,12 @@ function YourComponent() {
                   >
                     <button>Delete</button>
                   </Link>
+                  <Link
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
+                    href={`/orders/${machine._id}`}
+                  >
+                    <button>Orders</button>
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -161,8 +167,6 @@ function YourComponent() {
 }
 
 export default YourComponent;
-
-
 
 // "use client";
 // import { useEffect, useState } from "react";

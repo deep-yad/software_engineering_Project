@@ -75,12 +75,14 @@ const Nav = () => {
             </Link>
           </ListItem>
           <ListItem key={"Issues"} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <FeaturedPlayListIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Issues"} />
-            </ListItemButton>
+            <Link href="/createIssue">
+              <ListItemButton>
+                <ListItemIcon>
+                  <FeaturedPlayListIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Issues"} />
+              </ListItemButton>
+            </Link>
           </ListItem>
           <ListItem key={"Persons"} disablePadding>
             <Link href="/showPerson">

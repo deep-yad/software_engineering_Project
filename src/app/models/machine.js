@@ -25,6 +25,16 @@ const MachineSchema = new Schema({
       machine_id: Number,
     },
   ],
+  orders: [
+    {
+      purchase_date: String,
+      model: String,
+      make: String,
+      build_number: Number,
+      quantity: Number,
+      vendor: String,
+    },
+  ],
   current: [
     {
       issue_id: Number,
