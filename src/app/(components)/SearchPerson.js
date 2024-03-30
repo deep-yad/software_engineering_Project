@@ -57,6 +57,7 @@ const SearchPerson = ({ data, tag }) => {
       ) : (
         <p>No results found.</p>
       )}
+      <button className="bg-gray-200">Search Person</button>
     </div>
   );
 };

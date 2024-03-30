@@ -55,6 +55,7 @@ const SearchMachine = ({ data, tag }) => {
       ) : (
         <p>No results found.</p>
       )}
+      <button className="bg-gray-200">Search Machine</button>
     </div>
   );
 };
