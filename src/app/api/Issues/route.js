@@ -20,6 +20,9 @@ export async function POST(req) {
     const issueData = body.formData;
     console.log(issueData);
     await Issue.create(issueData);
+
+
+    
     const myObj = await Issue.find(issueData);
     console.log(myObj);
     const issue_id = myObj[0]._id.toString();
