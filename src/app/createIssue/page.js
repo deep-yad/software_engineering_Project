@@ -1,8 +1,8 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-export const dynamic = "force-static";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const page = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const page = () => {
     machine_id: "0",
     person_id: "0",
     is_returnable: true,
-    due_date: "10/11/2024",
+    due_date: new Date().toISOString().split("T")[0],
     order_is_completed: false,
     description: "dj",
   };
@@ -25,13 +25,22 @@ const page = () => {
   let [persons, setPersons] = useState([]);
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name === "date") {
+      const dateObject = new Date(value);
+      const dateString = dateObject.toISOString().split("T")[0];
+      console.log(dateString);
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: dateString,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const updatePerson = async (person) => {
@@ -43,6 +52,7 @@ const page = () => {
         "Content-Type": "application/json",
       },
     });
+   // console.log(formData.due_date);
     console.log(res);
     if (!res.ok) {
       throw new Error("Failed to update person.");
@@ -54,7 +64,7 @@ const page = () => {
     const res = await fetch("/api/Issues", {
       method: "POST",
       body: JSON.stringify({ formData }),
-      //@ts-ignore
+
       "Content-Type": "application/json",
     });
 
@@ -125,68 +135,113 @@ const page = () => {
     setSelectedPerson(selectedPerson);
     console.log("++", formData);
   };
-
   return (
-    <div>
-      <div>
-        <form method="post" onSubmit={handleSubmit}>
-          <label>machine_id</label>
-          <select
-            value={selectedMachine?.id || ""}
-            onChange={handleMachineChange}
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <div className="sm:max-w-xl sm:mx-auto">
+        <div className="bg-white shadow-lg sm:rounded-3xl sm:p-8">
+          <h2 className="text-3xl text-gray-900 text-center mb-8 font-bold">
+            Enter Issue Details
+          </h2>
+          <form
+            className="space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+            method="post"
+            onSubmit={handleSubmit}
           >
-            <option value="">Select Machine</option>
-            {machines.map((machine) => (
-              <option key={machine.id} value={machine.id}>
-                {machine.name}
-              </option>
-            ))}
-          </select>
-
-          <br />
-
-          <label>person_id</label>
-          <select
-            value={selectedPerson?._id || ""}
-            onChange={handlePersonChange}
-          >
-            <option value="">Select Person</option>
-            {persons.map((person) => (
-              <option key={person._id} value={person._id}>
-                {person.email_id}
-              </option>
-            ))}
-          </select>
-
-          <br />
-          <label>is_returnable</label>
-          <input
-            id="is_returnable"
-            name="is_returnable"
-            type="text"
-            value={formData.is_returnable}
-            onChange={handleChange}
-          />
-          <br />
-          <label>order_is_completed</label>
-          <input
-            id="order_is_completed"
-            name="order_is_completed"
-            type="text"
-            value={formData.order_is_completed}
-            onChange={handleChange}
-          />
-          <label>description</label>
-          <br />
-          <input
-            id="description"
-            name="description"
-            type="text"
-            value={formData.description}
-            onChange={handleChange}
-          />
-          <input type="submit" value={"Create Issue"} />
-        </form>
+            <div className="mb-4">
+              <label
+                className="block text-s font-semibold"
+                htmlFor="machine_id"
+              >
+                Machine ID
+              </label>
+              <select
+                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                id="machine_id"
+                value={selectedMachine?.id || ""}
+                onChange={handleMachineChange}
+              >
+                <option value="">Select Machine</option>
+                {machines.map((machine) => (
+                  <option key={machine.id} value={machine.id}>
+                    {machine.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-s font-semibold" htmlFor="person_id">
+                Person ID
+              </label>
+              <select
+                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                id="person_id"
+                value={selectedPerson?._id || ""}
+                onChange={handlePersonChange}
+              >
+                <option value="">Select Person</option>
+                {persons.map((person) => (
+                  <option key={person._id} value={person._id}>
+                    {person.email_id}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-s font-semibold"
+                htmlFor="is_returnable"
+              >
+                Is Returnable
+              </label>
+              <input
+                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                type="text"
+                id="is_returnable"
+                name="is_returnable"
+                value={formData.is_returnable}
+                onChange={handleChange}
+              />
+            </div>
+            
+            <div className="mb-4">
+              <label
+                className="block text-s font-semibold"
+                htmlFor="description"
+              >
+                Description
+              </label>
+              <input
+                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                type="text"
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-s font-semibold" htmlFor="due_date">
+                Due Date
+              </label>
+              <input
+                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                type="date"
+                id="due_date"
+                name="due_date"
+                value={formData.due_date}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="text-center">
+              <button
+                className="w-full py-3 px-6 bg-indigo-600 text-white rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                type="submit"
+              >
+                Create Issue
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

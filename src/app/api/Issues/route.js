@@ -17,6 +17,7 @@ export async function POST(req) {
     const body = await req.json();
     console.log("problem");
     const issueData = body.formData;
+    console.log(issueData);
 
     const result = await Issue.create(issueData);
 
