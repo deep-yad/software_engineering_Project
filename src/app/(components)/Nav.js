@@ -82,17 +82,6 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Issues"} disablePadding>
-            <Link href="/issue">
-              <ListItemButton>
-                <ListItemIcon>
-                  <FeaturedPlayListIcon className="text-indigo-500 text-2xl"/>
-                </ListItemIcon>
-                {/* <ListItemText primary={"Issues"} /> */}
-                <Typography variant="h7" className="text-lg font-semibold">Issues</Typography>
-              </ListItemButton>
-            </Link>
-          </ListItem>
           <ListItem key={"Persons"} disablePadding>
             <Link href="/showPerson">
               <ListItemButton>
