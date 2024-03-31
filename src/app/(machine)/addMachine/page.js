@@ -1,87 +1,126 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import UpdateMachine from "../updateMachine/[id]/page";
+import mongoose from "mongoose";
 
 const MachineForm = () => {
+  const defaultFormData = {
+    machine_name: "",
+    description: "",
+    available_quantity: "",
+    total_quantity: "",
+  };
   const router = useRouter();
-  const [machineName, setMachineName] = useState("");
-  const [description, setDescription] = useState("");
-  const [availableQuantity, setAvailableQuantity] = useState(0);
-  const [totalQuantity, setTotalQuantity] = useState(0);
-  const [hasSubparts, setHasSubparts] = useState(false);
-  const [subParts, setSubParts] = useState([]);
-  const [item, setItem] = useState("");
+  const [formData, setFormData] = useState(defaultFormData);
+  const [hasParent, setHasParent] = useState(false);
+  let [machines, setMachines] = useState([]);
+  let [parentMachine, setParentMachine] = useState(null);
+  let [selectedMachineId, setSelectedMachineId] = useState(null);
 
-  const handleChange = (event) => {
-    const { name, value, type } = event.target;
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    const type = e.target.type;
     if (type === "checkbox") {
-      setHasSubparts(event.target.checked);
-    } else {
-      switch (name) {
-        case "machineName":
-          setMachineName(value);
-          break;
-        case "description":
-          setDescription(value);
-          break;
-        case "totalQuantity":
-          setTotalQuantity(parseInt(value));
-          break;
-        case "availableQuantity":
-          setAvailableQuantity(parseInt(value));
-          break;
-        case "item":
-          setItem(value);
-          break;
-        default:
-          break;
+      setHasParent(e.target.checked);
+    } else
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+  };
+
+  useEffect(() => {
+    const names = [];
+    const getMachine = async () => {
+      const response = await fetch("/api/machine", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      for (let i = 0; i < data.length; i++) {
+        names.push({ name: data[i].machine_name, id: data[i]._id });
       }
+      machines = names;
+      setMachines(machines);
+    };
+    getMachine();
+  }, []);
+
+  useEffect(() => {
+    console.log("affected");
+    if (parentMachine) {
+      updateMachine();
     }
+  }, [parentMachine]);
+
+  const handleMachineChange = async (e) => {
+    const id = e.target.value;
+    setSelectedMachineId(id);
+    console.log(selectedMachineId);
   };
 
-  const handleAddItem = () => {
-    setSubParts([...subParts, item]);
-    setItem("");
-  };
-
-  const sendObject = async (new_Item) => {
-    // try {
-    //     const response = await axios.post("/api/create/newMachine",  JSON.stringify({new_Item});
-    // //   const response = await axios.post("/api/create/newMachine",  JSON.stringify({new_Item});
-    //   if (!response.data.success) {
-    //     throw new Error(response.data.message); // Handle errors from backend
-    //   }
-
-    //   console.log("Object sent successfully!");
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
-    const res = await fetch("/api/machine", {
-      method: "POST",
-      body: JSON.stringify(new_Item),
-      //@ts-ignore
-      "Content-Type": "application/json",
-    });
+  const updateMachine = async () => {
+    console.log(parentMachine);
+    console.log(parentMachine._id);
+    const res = await fetch(
+      `http://localhost:3000/api/machine/${parentMachine._id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ formData: parentMachine }),
+        //@ts-ignore
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(res);
     if (!res.ok) {
-      throw new Error("Failed to create machine");
-    } else console.log("machine created");
+      throw new Error("Failed to update machine.");
+    }
     router.refresh();
     router.push("/showMachine");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const newItem = {
-      machineName: machineName,
-      description: description,
-      totalQuantity: totalQuantity,
-      availableQuantity: availableQuantity,
-      hasSubparts: hasSubparts,
-      subParts: subParts,
-    };
-
-    sendObject(newItem);
+    const res = await fetch("/api/machine", {
+      method: "POST",
+      body: JSON.stringify({ formData }),
+      //@ts-ignore
+      "Content-Type": "application/json",
+    });
+    if (res.ok) {
+      console.log("machine created");
+      const created_machine = await res.json();
+      if (selectedMachineId) {
+        console.log(selectedMachineId);
+        const response = await fetch(`api/machine/${selectedMachineId}`);
+        let result = await response.json();
+        console.log(result);
+        result = result.foundMachine;
+        result.subparts.push({
+          machine_id: new mongoose.Types.ObjectId(created_machine.id),
+        });
+        console.log(result);
+        setParentMachine(result);
+        // setParentMachine(async (prevMachine) => {
+        //   const response = await fetch(`api/machine/${selectedMachineId}`);
+        //   let result = await response.json();
+        //   console.log(result);
+        //   result = result.foundMachine;
+        //   result.subparts.push({ machine_id: created_machine.id });
+        //   console.log(result);
+        //   return result;
+        // });
+      }
+    } else {
+      throw new Error("Failed to create machine");
+    }
+    router.refresh();
+    router.push("/showMachine");
   };
 
   return (
@@ -93,15 +132,15 @@ const MachineForm = () => {
         <div className="bg-white px-8 py-6">
           <div className="mb-4">
             <label
-              htmlFor="machineName"
+              htmlFor="machine_name"
               className="block text-gray-700 font-bold mb-2"
             >
               Machine Name:
             </label>
             <input
               type="text"
-              name="machineName"
-              value={machineName}
+              name="machine_name"
+              value={formData.machine_name}
               onChange={handleChange}
               required
               className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -116,7 +155,7 @@ const MachineForm = () => {
             </label>
             <textarea
               name="description"
-              value={description}
+              value={formData.description}
               onChange={handleChange}
               required
               className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -124,15 +163,15 @@ const MachineForm = () => {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="totalQuantity"
+              htmlFor="total_quantity"
               className="block text-gray-700 font-bold mb-2"
             >
               Total Quantity:
             </label>
             <input
               type="number"
-              name="totalQuantity"
-              value={totalQuantity}
+              name="total_quantity"
+              value={formData.total_quantity}
               onChange={handleChange}
               min={0}
               required
@@ -141,15 +180,15 @@ const MachineForm = () => {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="availableQuantity"
+              htmlFor="available_quantity"
               className="block text-gray-700 font-bold mb-2"
             >
               Available Quantity:
             </label>
             <input
               type="number"
-              name="availableQuantity"
-              value={availableQuantity}
+              name="available_quantity"
+              value={formData.available_quantity}
               onChange={handleChange}
               min={0}
               required
@@ -161,36 +200,26 @@ const MachineForm = () => {
               <input
                 type="checkbox"
                 name="hasSubparts"
-                checked={hasSubparts}
+                checked={hasParent}
                 onChange={handleChange}
                 className="mr-2 leading-tight"
               />
-              <span>Is Subparts</span>
+              <span>Has Parent?</span>
             </label>
-            {hasSubparts && (
+            {hasParent && (
               <div className="mt-2">
-                {subParts.map((subPart, index) => (
-                  <p key={index} className="text-gray-700">
-                    {index + 1}. {subPart}
-                  </p>
-                ))}
-                <div className="flex items-center mt-2">
-                  <input
-                    type="text"
-                    name="item"
-                    value={item}
-                    onChange={handleChange}
-                    placeholder="Machine Id"
-                    className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                  <button
-                    onClick={handleAddItem}
-                    type="button"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-r mx-2 hover:bg-blue-600 focus:outline-none"
-                  >
-                    Add
-                  </button>
-                </div>
+                <label>Select Parent</label>
+                <select
+                  value={selectedMachineId || ""}
+                  onChange={handleMachineChange}
+                >
+                  <option value="">Select Machine</option>
+                  {machines.map((machine) => (
+                    <option key={machine.id} value={machine.id}>
+                      {machine.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
           </div>
