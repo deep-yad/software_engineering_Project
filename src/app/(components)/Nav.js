@@ -1,3 +1,4 @@
+//Nav.js
 "use client";
 import * as React from "react";
 import Dashboard from "../dashboard/page";
@@ -19,9 +20,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
-import AssessmentIcon from "@material-ui/icons/Assessment";
+import AddCardIcon from '@mui/icons-material/AddCard';
 
-const drawerWidth = 200;
+const drawerWidth = 265;
 
 import Link from "next/link";
 
@@ -55,10 +56,15 @@ const Nav = () => {
           <ListItem key={"MAKERSPACE"} disablePadding>
             <Link href="https://www.iiti.ac.in/public/storage/BoG/48th_BoG.pdf">
               <ListItemButton>
-                <ListItemIcon>
-                  <InboxIcon />
+                <ListItemIcon >
+                  <InboxIcon className="text-indigo-600 text-5xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"MAKERSPACE"} />
+                <div className="flex flex-col">
+                  <Typography variant="h6" className="text-xl font-serif font-bold">MAKERSPACE</Typography>
+                  <div className="flex-grow flex justify-center text-justify">
+                  <Typography className="font-serif font-bold">IIT Indore</Typography>
+                  </div>
+                </div>
               </ListItemButton>
             </Link>
           </ListItem>
@@ -69,19 +75,21 @@ const Nav = () => {
             <Link href="/dashboard">
               <ListItemButton>
                 <ListItemIcon>
-                  <DashboardIcon />
+                  <DashboardIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Dashboard"} />
+                {/* <ListItemText primary={"Dashboard"} /> */}
+                <Typography variant="h7" className="text-lg font-semibold">Dashboard</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
           <ListItem key={"Issues"} disablePadding>
-            <Link href="/createIssue">
+            <Link href="/issue">
               <ListItemButton>
                 <ListItemIcon>
-                  <FeaturedPlayListIcon />
+                  <FeaturedPlayListIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Issues"} />
+                {/* <ListItemText primary={"Issues"} /> */}
+                <Typography variant="h7" className="text-lg font-semibold">Issues</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
@@ -89,19 +97,21 @@ const Nav = () => {
             <Link href="/showPerson">
               <ListItemButton>
                 <ListItemIcon>
-                  <PersonIcon />
+                  <PersonIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Persons"} />
+                {/* <ListItemText primary={"Persons"} /> */}
+                <Typography variant="h7" className="text-lg font-semibold">Persons</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
           <ListItem key={"Machines"} disablePadding>
-            <Link href="/showMachine">
+            <Link href="showMachine">
               <ListItemButton>
                 <ListItemIcon>
-                  <CoffeeMakerIcon />
+                  <CoffeeMakerIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Machines"} />
+                {/* <ListItemText primary={"Machines"} /> */}
+                <Typography variant="h7" className="text-lg font-semibold">Machines</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
@@ -112,9 +122,10 @@ const Nav = () => {
             <Link href="/createPerson">
               <ListItemButton>
                 <ListItemIcon>
-                  <PersonAddIcon />
+                  <PersonAddIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Add Peson"} />
+                {/* <ListItemText primary={"Add Peson"} /> */}
+                <Typography variant="h7" className="text-lg font-semibold">Add Person</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
@@ -122,19 +133,30 @@ const Nav = () => {
             <Link href="/addMachine">
               <ListItemButton>
                 <ListItemIcon>
-                  <CoffeeMakerIcon />
+                  <CoffeeMakerIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Add Machine"} />
+                {/* <ListItemText primary={"Add Machine"} /> */}
+                <Typography variant="h7" className="text-lg font-semibold">Add Machine</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Add Machine"} disablePadding>
-            <Link href="/pdf">
+          <ListItem key={"Create Issue"} disablePadding>
+            <Link href="/createIssue">
               <ListItemButton>
                 <ListItemIcon>
-                  <AssessmentIcon />
+                  <AddCardIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
-                <ListItemText primary={"Get Report"} />
+                <Typography variant="h7" className="text-lg font-semibold">Create Issue</Typography>
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem key={"Create Issue"} disablePadding>
+             <Link href="/pdf">
+              <ListItemButton>
+                <ListItemIcon>
+                  <AddCardIcon className="text-indigo-500 text-2xl"/>
+                </ListItemIcon>
+                <Typography variant="h7" className="text-lg font-semibold">Get Report</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
