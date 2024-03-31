@@ -281,7 +281,7 @@ const page = () => {
                         handleEmailSend(selectedPersonId, item.itemId)
                       }
                     >
-                      <EmailIcon />
+                      <EmailIcon  />
                       Send Warning mail
                     </Button>
                     <Button
