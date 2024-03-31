@@ -124,115 +124,123 @@ const MachineForm = () => {
   };
 
   return (
-    <div className="bg-orange-50 min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-lg mx-auto mt-8 shadow-lg  rounded-lg overflow-hidden"
-      >
-        <div className="bg-white px-8 py-6">
-          <div className="mb-4">
-            <label
-              htmlFor="machine_name"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Machine Name:
-            </label>
-            <input
-              type="text"
-              name="machine_name"
-              value={formData.machine_name}
-              onChange={handleChange}
-              required
-              className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Description:
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="total_quantity"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Total Quantity:
-            </label>
-            <input
-              type="number"
-              name="total_quantity"
-              value={formData.total_quantity}
-              onChange={handleChange}
-              min={0}
-              required
-              className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="available_quantity"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Available Quantity:
-            </label>
-            <input
-              type="number"
-              name="available_quantity"
-              value={formData.available_quantity}
-              onChange={handleChange}
-              min={0}
-              required
-              className="shadow appearance-none border border-gray-400 rounded w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="flex items-center text-gray-700 font-bold">
-              <input
-                type="checkbox"
-                name="hasSubparts"
-                checked={hasParent}
-                onChange={handleChange}
-                className="mr-2 leading-tight"
-              />
-              <span>Has Parent?</span>
-            </label>
-            {hasParent && (
-              <div className="mt-2">
-                <label>Select Parent</label>
-                <select
-                  value={selectedMachineId || ""}
-                  onChange={handleMachineChange}
-                >
-                  <option value="">Select Machine</option>
-                  {machines.map((machine) => (
-                    <option key={machine.id} value={machine.id}>
-                      {machine.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="bg-gray-100 px-4 py-3 flex justify-end">
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 focus:outline-none"
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <div className="sm:max-w-xl sm:mx-auto">
+        <div className="bg-white shadow-lg sm:rounded-3xl sm:p-8">
+          <h2 className="text-3xl text-gray-900 text-center mb-8 font-bold">
+            Enter New Machine
+          </h2>
+          <form
+            onSubmit={handleSubmit}
+            class="space-y-4 text-gray-700 sm:text-lg sm:leading-7"
           >
-            Submit
-          </button>
+          
+              <div class="mb-4">
+                <label
+                  for="machine_name"
+                  class="block text-s font-semibold mb-2"
+                >
+                  Machine Name:
+                </label>
+                <input
+                  type="text"
+                  name="machine_name"
+                  value={formData.machine_name}
+                  onChange={handleChange}
+                  required
+                  class="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  for="description"
+                  class="block text-s font-semibold mb-2"
+                >
+                  Description:
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  class="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                ></textarea>
+              </div>
+              <div class="mb-4">
+                <label
+                  for="total_quantity"
+                  class="block text-s font-semibold mb-2"
+                >
+                  Total Quantity:
+                </label>
+                <input
+                  type="number"
+                  name="total_quantity"
+                  value={formData.total_quantity}
+                  onChange={handleChange}
+                  min={0}
+                  required
+                  class="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  for="available_quantity"
+                  class="block text-s font-semibold mb-2"
+                >
+                  Available Quantity:
+                </label>
+                <input
+                  type="number"
+                  name="available_quantity"
+                  value={formData.available_quantity}
+                  onChange={handleChange}
+                  min={0}
+                  required
+                  class="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="block text-s font-semibold mb-2">
+                  <input
+                    type="checkbox"
+                    name="hasSubparts"
+                    checked={hasParent}
+                    onChange={handleChange}
+                    class="mr-2 leading-tight"
+                  />
+                  <span>Has Parent?</span>
+                </label>
+                {hasParent && (
+                  <div class="mt-2">
+                    <label>Select Parent</label>
+                    <select
+                      value={selectedMachineId || ""}
+                      onChange={handleMachineChange}
+                      class="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                      <option value="">Select Machine</option>
+                      {machines.map((machine) => (
+                        <option key={machine.id} value={machine.id}>
+                          {machine.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+            
+            <div class="px-4 py-3  flex justify-end">
+              <button
+                type="submit"
+                class="px-6 py-3 bg-indigo-600 text-white rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

@@ -20,30 +20,6 @@ import {
   CloseIcon,
 } from "@mui/material";
 
-const getPersons = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/Persons", {
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch persons");
-    }
-
-    return res.json();
-  } catch (error) {
-    console.log("Error loading presons: ", error);
-  }
-};
-
-const deletePerson = async (id) => {
-  const res = await fetch(`http://localhost:3000/api/Persons/${id}`, {
-    method: "DELETE",
-  });
-  if (res.ok) {
-    router.refresh();
-  }
-};
 
 const page = () => {
   let [persons, setPersons] = useState(null);

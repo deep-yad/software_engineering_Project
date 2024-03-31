@@ -127,6 +127,16 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
+          <ListItem key={"Search"} disablePadding>
+            <Link href="/search">
+              <ListItemButton>
+                <ListItemIcon>
+                  <CoffeeMakerIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Search"} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
         </List>
       </Drawer>
     </Box>
