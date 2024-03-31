@@ -19,6 +19,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 
 const drawerWidth = 200;
 
@@ -127,13 +128,13 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Search"} disablePadding>
-            <Link href="/search">
+          <ListItem key={"Add Machine"} disablePadding>
+            <Link href="/pdf">
               <ListItemButton>
                 <ListItemIcon>
-                  <CoffeeMakerIcon />
+                  <AssessmentIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Search"} />
+                <ListItemText primary={"Get Report"} />
               </ListItemButton>
             </Link>
           </ListItem>
