@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 function YourComponent() {
   let [machines, setMachines] = useState([]);
@@ -22,144 +25,88 @@ function YourComponent() {
   const flattenSubparts = (subparts) => subparts.flatMap((subpart) => subpart);
 
   return (
-    <div className="container mx-auto mt-8  flex items-center justify-center">
-      <table className="table-auto border-collapse border border-gray-800">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-800 px-4 py-2">Machine Name</th>
-            <th className="border border-gray-800 px-4 py-2">Description</th>
-            <th className="border border-gray-800 px-4 py-2">Total Quantity</th>
-            <th className="border border-gray-800 px-4 py-2">
+    <div className="overflow-hidden h-screen rounded-lg border border-gray-200 shadow-md m-5">
+      <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              Machine Name
+            </th>
+            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              Description
+            </th>
+            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              Total Quantity
+            </th>
+            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
               Available Quantity
             </th>
-            <th className="border border-gray-800 px-4 py-2">Machine ID</th>
-            <th className="border border-gray-800 px-4 py-2">Parent ID</th>
-            <th className="border border-gray-800 px-4 py-2">Actions</th>
+            {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              Machine ID
+            </th> */}
+            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              Subparts
+            </th>
+            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              Actions
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-gray-100 border-t border-gray-100">
           {machines &&
             machines.map((machine) => (
-              <tr rowSpan={flattenSubparts(machine.subparts).length}>
+              <tr
+                className="hover:bg-gray-50"
+                rowSpan={flattenSubparts(machine.subparts).length}
+              >
                 <td
-                  className="border border-gray-800 px-4 py-2"
+                  className="px-6 py-4 font-medium text-gray-900"
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
                   {machine.machine_name}
                 </td>
-                <td className="border border-gray-800 px-4 py-2">
+                <td className="px-6 py-4 font-medium text-gray-900">
                   {machine.description}
                 </td>
                 <td
-                  className="border border-gray-800 px-4 py-2"
+                  className="px-6 py-4 font-medium text-gray-900"
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
                   {machine.total_quantity}
                 </td>
                 <td
-                  className="border border-gray-800 px-4 py-2"
+                  className="px-6 py-4 font-medium text-gray-900"
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
                   {machine.available_quantity}
                 </td>
-                <td
-                  className="border border-gray-800 px-4 py-2"
-                  // rowSpan={flattenSubparts(machine.subparts).length}
-                >
-                  {machine._id}
+                <td className="px-6 py-4 font-medium text-gray-900">
+                  {machine.subparts.length === 0 ? (
+                    <span>No subparts</span>
+                  ) : (
+                    <span>
+                      {machine.subparts
+                        .map((item) => item.machine_id.toString())
+                        .join(", ")}
+                    </span>
+                  )}
                 </td>
-                {flattenSubparts(machine.subparts).length ? (
-                  <td
-                    className="border border-gray-800 px-4 py-2"
-                    rowSpan={flattenSubparts(machine.subparts).length}
-                  >
-                    {flattenSubparts(machine.subparts).map((subpart) => (
-                      <td rowSpan={flattenSubparts(machine.subparts).length}>
-                        {subpart._id}
-                      </td>
-                    ))}
-                  </td>
-                ) : (
-                  <td className="border border-gray-800 px-4 py-2">-</td>
-                )}
-                <td className="border border-gray-800 px-4 py-2">
+                <td className="px-6 py-4 font-medium text-gray-900">
                   {" "}
-                  <Link
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    href={`/updateMachine/${machine._id}`}
-                  >
-                    <button>Edit</button>
-                  </Link>
-                  <Link
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
-                    href={`/updateMachine/${machine._id}`}
-                  >
-                    <button>Delete</button>
-                  </Link>
-                  <Link
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
-                    href={`/orders/${machine._id}`}
-                  >
-                    <button>Orders</button>
-                  </Link>
+                  <div className="flex justify-end gap-4">
+                    <Link href={`/updateMachine/${machine._id}`}>
+                      <EditIcon></EditIcon>
+                    </Link>
+                    <Link href={`/updateMachine/${machine._id}`}>
+                      <DeleteIcon></DeleteIcon>
+                    </Link>
+                    <Link href={`/orders/${machine._id}`}>
+                      <ShoppingCartIcon></ShoppingCartIcon>
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}
-          {/* {machines &&
-            machines.map((machine) =>
-              
-              flattenSubparts(machine.subparts).map((subpart, index) => (
-                <tr key={index} className="border border-gray-800">
-                  {index === 0 && ( // Only render machine details for the first subpart
-                    <>
-                      <td
-                        className="border border-gray-800 px-4 py-2"
-                        rowSpan={flattenSubparts(machine.subparts).length}
-                      >
-                        {machine.machine_name}
-                      </td>
-                      <td
-                        className="border border-gray-800 px-4 py-2"
-                        rowSpan={flattenSubparts(machine.subparts).length}
-                      >
-                        {machine.description}
-                      </td>
-                      <td
-                        className="border border-gray-800 px-4 py-2"
-                        rowSpan={flattenSubparts(machine.subparts).length}
-                      >
-                        {machine.total_quantity}
-                      </td>
-                      <td
-                        className="border border-gray-800 px-4 py-2"
-                        rowSpan={flattenSubparts(machine.subparts).length}
-                      >
-                        {machine.available_quantity}
-                      </td>
-                    </>
-                  )}
-                  <td className="border border-gray-800 px-4 py-2">
-                    {subpart.machine_id}
-                  </td>
-                  <td className="border border-gray-800 px-4 py-2">
-                    {" "}
-                    <Link
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                      href={`/updateMachine/${machine._id}`}
-                    >
-                      <button>Edit</button>
-                    </Link>
-                    <Link
-                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
-                      href={`/updateMachine/${machine._id}`}
-                    >
-                      <button>Delete</button>
-                    </Link>
-                  </td>
-                </tr>
-              )
-              )
-            )} */}
         </tbody>
       </table>
     </div>
@@ -167,100 +114,3 @@ function YourComponent() {
 }
 
 export default YourComponent;
-
-// "use client";
-// import { useEffect, useState } from "react";
-// import Link from "next/link";
-
-// function YourComponent() {
-//   const [machines, setMachines] = useState([]);
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       const response = await fetch("/api/machine");
-//       const data = await response.json();
-//       console.log(data.machine);
-//       setMachines(data.machine);
-//       console.log(machines);
-//     }
-
-//     fetchData();
-//   }, []);
-//   const flattenSubparts = (subparts) => subparts.flatMap((subpart) => subpart);
-
-//   return (
-//     <div className="container mx-auto mt-8  flex items-center justify-center">
-//       <table className="table-auto border-collapse border border-gray-800">
-//         <thead>
-//           <tr className="bg-gray-200">
-//             <th className="border border-gray-800 px-4 py-2">Machine Name</th>
-//             <th className="border border-gray-800 px-4 py-2">Description</th>
-//             <th className="border border-gray-800 px-4 py-2">Total Quantity</th>
-//             <th className="border border-gray-800 px-4 py-2">
-//               Available Quantity
-//             </th>
-//             <th className="border border-gray-800 px-4 py-2">Machine ID</th>
-//             <th className="border border-gray-800 px-4 py-2">Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {machines &&
-//             machines.map((machine) =>
-//               flattenSubparts(machine.subparts).map((subpart, index) => (
-//                 <tr key={index} className="border border-gray-800">
-//                   {index === 0 && ( // Only render machine details for the first subpart
-//                     <>
-//                       <td
-//                         className="border border-gray-800 px-4 py-2"
-//                         rowSpan={flattenSubparts(machine.subparts).length}
-//                       >
-//                         {machine.machine_name}
-//                       </td>
-//                       <td
-//                         className="border border-gray-800 px-4 py-2"
-//                         rowSpan={flattenSubparts(machine.subparts).length}
-//                       >
-//                         {machine.description}
-//                       </td>
-//                       <td
-//                         className="border border-gray-800 px-4 py-2"
-//                         rowSpan={flattenSubparts(machine.subparts).length}
-//                       >
-//                         {machine.total_quantity}
-//                       </td>
-//                       <td
-//                         className="border border-gray-800 px-4 py-2"
-//                         rowSpan={flattenSubparts(machine.subparts).length}
-//                       >
-//                         {machine.available_quantity}
-//                       </td>
-//                     </>
-//                   )}
-//                   <td className="border border-gray-800 px-4 py-2">
-//                     {subpart.machine_id}
-//                   </td>
-//                   <td className="border border-gray-800 px-4 py-2">
-//                     {" "}
-//                     <Link
-//                       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-//                       href={`/updateMachine/${machine._id}`}
-//                     >
-//                       <button>Edit</button>
-//                     </Link>
-//                     <Link
-//                       className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
-//                       href={`/updateMachine/${machine._id}`}
-//                     >
-//                       <button>Delete</button>
-//                     </Link>
-//                   </td>
-//                 </tr>
-//               ))
-//             )}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
-// export default YourComponent;

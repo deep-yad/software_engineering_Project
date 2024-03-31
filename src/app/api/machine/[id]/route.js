@@ -13,6 +13,7 @@ export async function PUT(req, { params }) {
     console.log("update dfjksdfa");
     const { id } = params;
     const body = await req.json();
+    console.log(body);
     const updatedMachineData = await Machine.findByIdAndUpdate(id, {
       ...body.formData,
     });

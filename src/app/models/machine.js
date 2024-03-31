@@ -4,10 +4,6 @@ mongoose.connect(process.env.MONGODB_URI);
 mongoose.Promise = global.Promise;
 
 const MachineSchema = new Schema({
-  machine_id: {
-    type: Number,
-    required: [true, "Machine Id required"],
-  },
   machine_name: {
     type: String,
   },
@@ -22,7 +18,7 @@ const MachineSchema = new Schema({
   },
   subparts: [
     {
-      machine_id: Number,
+      machine_id: Schema.Types.ObjectId,
     },
   ],
   orders: [
@@ -37,12 +33,12 @@ const MachineSchema = new Schema({
   ],
   current: [
     {
-      issue_id: Number,
+      issue_id: Schema.Types.ObjectId,
     },
   ],
   completed: [
     {
-      issue_id: Number,
+      issue_id: Schema.Types.ObjectId,
     },
   ],
 });
