@@ -96,7 +96,7 @@ function YourComponent() {
         <thead className="bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-              Machine Name
+              Component Name
             </th>
             <th scope="col" className="px-6 py-4 font-medium text-gray-900">
               Description
@@ -106,12 +106,6 @@ function YourComponent() {
             </th>
             <th scope="col" className="px-6 py-4 font-medium text-gray-900">
               Available Quantity
-            </th>
-            {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-              Machine ID
-            </th> */}
-            <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-              Subparts
             </th>
             <th scope="col" className="px-6 py-4 font-medium text-gray-900">
               Actions
@@ -145,17 +139,6 @@ function YourComponent() {
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
                   {machine.available_quantity}
-                </td>
-                <td className="px-6 py-4 font-medium text-gray-900">
-                  {machine.subparts.length === 0 ? (
-                    <span>No subparts</span>
-                  ) : (
-                    <span>
-                      {machine.subparts
-                        .map((item) => item.machine_id.toString())
-                        .join(", ")}
-                    </span>
-                  )}
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {" "}

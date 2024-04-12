@@ -10,9 +10,9 @@ export async function POST(req) {
     console.log(userId);
     console.log(issueId);
     const user = await Person.findById(userId);
-    const issue = await Issue.findById(issueId);
+    //const issue = await Issue.findById(issueId);
     console.log(user);
-    console.log(issue);
+    //console.log(issue);
 
     const transporter = nodemailer.createTransport({
     service:"gmail",
@@ -28,16 +28,19 @@ export async function POST(req) {
   
     let mailOptions = {
       from: {
-        name:"Deepak",
-        address:"yadavluckyxyz@gmail.com"
+        name: "MakerSpace Lab",
+        address: "yadavluckyxyz@gmail.com"
       },
-      to: "deepak2604yadav@gmail.com",
+      to: user.email_id,
       subject: 'Regarding Due Date of Issued Machine',
       text: `Dear ${user.person_name},
-      You have issued the following equipment with ID ${3452452234} from maker Space lab . Your due date is  "12/32423/224".
-      From : Anand Petare, Maker Space Lab , IIt Indore
-      Best Regards
-    `,
+        You have issued the following equipment with ID ${issueId} from Maker Space Lab. Please return it to Maker Space Lab.
+        
+      From: Anand Petare,
+      Maker Space Lab,
+      IIT Indore
+        
+      Best Regards,`
     };
     const sendMail =async (transporter,mailOptions)=>{
         try{

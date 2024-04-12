@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const page = () => {
   const router = useRouter();
@@ -23,6 +25,8 @@ const page = () => {
   let [machines, setMachines] = useState([]);
   let [issue_id, set_issue_id] = useState(null);
   let [persons, setPersons] = useState([]);
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,7 +56,7 @@ const page = () => {
         "Content-Type": "application/json",
       },
     });
-   // console.log(formData.due_date);
+    // console.log(formData.due_date);
     console.log(res);
     if (!res.ok) {
       throw new Error("Failed to update person.");
@@ -76,7 +80,10 @@ const page = () => {
         current: [...prevPerson.current, { issue_id: issue.id }],
       }));
       updatePerson(selectedPerson);
+      toast.success("Issue Created Successfully")
+
     } else {
+      toast.error("Something went wrong! Try again")
       throw new Error("Failed to create ticket");
     }
 
@@ -137,6 +144,7 @@ const page = () => {
   };
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+       <ToastContainer />
       <div className="sm:max-w-xl sm:mx-auto">
         <div className="bg-white shadow-lg sm:rounded-3xl sm:p-8">
           <h2 className="text-3xl text-gray-900 text-center mb-8 font-bold">
@@ -193,16 +201,18 @@ const page = () => {
               >
                 Is Returnable
               </label>
-              <input
+              <select
                 className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                type="text"
                 id="is_returnable"
                 name="is_returnable"
                 value={formData.is_returnable}
                 onChange={handleChange}
-              />
+              >
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
             </div>
-            
+
             <div className="mb-4">
               <label
                 className="block text-s font-semibold"
@@ -219,7 +229,7 @@ const page = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-s font-semibold" htmlFor="due_date">
                 Due Date
               </label>
@@ -231,7 +241,7 @@ const page = () => {
                 value={formData.due_date}
                 onChange={handleChange}
               />
-            </div>
+            </div> */}
             <div className="text-center">
               <button
                 className="w-full py-3 px-6 bg-indigo-600 text-white rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

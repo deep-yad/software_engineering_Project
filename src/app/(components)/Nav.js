@@ -104,6 +104,16 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
+          <ListItem key={"Create Issue"} disablePadding>
+             <Link href="/inventory">
+              <ListItemButton>
+                <ListItemIcon>
+                  <AddCardIcon className="text-indigo-500 text-2xl"/>
+                </ListItemIcon>
+                <Typography variant="h7" className="text-lg font-semibold">Inventory</Typography>
+              </ListItemButton>
+            </Link>
+          </ListItem>
         </List>
         <Divider />
         <List>
@@ -140,6 +150,17 @@ const Nav = () => {
             </Link>
           </ListItem>
           <ListItem key={"Create Issue"} disablePadding>
+             <Link href="/addinventory">
+              <ListItemButton>
+                <ListItemIcon>
+                  <AddCardIcon className="text-indigo-500 text-2xl"/>
+                </ListItemIcon>
+                <Typography variant="h7" className="text-lg font-semibold">Add Inventory</Typography>
+              </ListItemButton>
+            </Link>
+          </ListItem>
+         
+          <ListItem key={"Create Issue"} disablePadding>
              <Link href="/pdf">
               <ListItemButton>
                 <ListItemIcon>
@@ -149,6 +170,7 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
+         
         </List>
       </Drawer>
     </Box>

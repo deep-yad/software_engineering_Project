@@ -11,6 +11,9 @@ const PersonSchema = new Schema({
   person_name: {
     type: String,
   },
+  category: {
+    type: String,
+  },
   mobile_number: {
     type: String,
     match: /^[0-9]+$/,

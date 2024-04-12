@@ -2,13 +2,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const page = ({ params }) => {
   const router = useRouter();
   // Assuming 'params.id' is the dynamic part of the route
 
   const defaultOrder = {
-    purchase_date: "",
+    purchase_date: new Date().toISOString().split("T")[0],
     model: "",
     make: "",
     build_number: 0,
@@ -49,13 +51,22 @@ const page = ({ params }) => {
   }, []); // This effect runs when 'params.id' changes
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
 
-    setOrderFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name === "purchase_date") {
+      const dateObject = new Date(value);
+      const dateString = dateObject.toISOString().split("T")[0];
+      console.log(dateString);
+      setOrderFormData((prevData) => ({
+        ...prevData,
+        [name]: dateString,
+      }));
+    } else {
+      setOrderFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -74,22 +85,26 @@ const page = ({ params }) => {
     })
       .then((response) => {
         if (!response.ok) {
+          toast.error("Something went wrong! Try again")
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
+        toast.success("Order added successfully")
         console.log("updated machine order", data);
         router.refresh(); // 'router.refresh()' is not a function in Next.js, use 'router.reload()' instead
         router.push("/showMachine");
       })
       .catch((error) => {
+        toast.error("Something went wrong! Try again")
         console.error("Error:", error);
       });
   };
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <ToastContainer />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -110,23 +125,21 @@ const page = ({ params }) => {
     build_number: 38940,
     quantity: 34,
     vendor: "Nfie", */}
-              <div className="flex -mx-3">
-                <div className="w-full px-3 mb-3">
-                  <label
-                    className="text-s font-semibold px-1"
-                    htmlFor="purchase_date"
-                  >
-                    Purchase Date
-                  </label>
-                  <input
-                    className="w-full ml-0 pl-1 pr-3 py-2 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
-                    id="purchase_date"
-                    name="purchase_date"
-                    type="text"
-                    value={orderFormData.purchase_date}
-                    onChange={handleChange}
-                  />
-                </div>
+              <div className="mb-4">
+                <label
+                  className="block text-s font-semibold"
+                  htmlFor="due_date"
+                >
+                  Purchase Date
+                </label>
+                <input
+                  className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  type="date"
+                  id="due_date"
+                  name="purchase_date"
+                  value={orderFormData.purchase_date}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex -mx-3">
                 <div className="w-full px-3 mb-3">

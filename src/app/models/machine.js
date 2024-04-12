@@ -16,6 +16,9 @@ const MachineSchema = new Schema({
   available_quantity: {
     type: Number,
   },
+  category: {
+    type: String,
+  },
   subparts: [
     {
       machine_id: Schema.Types.ObjectId,

@@ -31,6 +31,7 @@ const page = () => {
   let [completedMachineDetailsArray, setcompletedMachineDetailsArray] =
     useState([]);
   let [personData, setPersonData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const router = useRouter();
 
@@ -52,25 +53,32 @@ const page = () => {
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
   };
-  const filterData = (searchText) => {
-    if (!searchText) {
-      return [];
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+  const filterData = (searchText, category) => {
+    let newData = personData;
+    if (searchText) {
+      const lowercaseSearchText = searchText.toLowerCase();
+      newData = newData.filter(
+        (item) =>
+          item.email_id.toLowerCase().includes(lowercaseSearchText) ||
+          item.person_name.toLowerCase().includes(lowercaseSearchText) ||
+          item.mobile_number.toLowerCase().includes(lowercaseSearchText)
+      );
     }
-    const lowercaseSearchText = searchText.toLowerCase();
-    let newData = personData.filter(
-      (item) =>
-        item.email_id.toLowerCase().includes(lowercaseSearchText) ||
-        item.person_name.toLowerCase().includes(lowercaseSearchText) ||
-        item.mobile_number.toLowerCase().includes(lowercaseSearchText)
-    );
+    if (category) {
+      newData = newData.filter((item) => item.category === category);
+    }
     console.log(newData);
     return newData;
   };
 
   useEffect(() => {
-    const results = filterData(searchText);
+    const results = filterData(searchText, selectedCategory);
     setSearchResults(results);
-  }, [searchText, personData]);
+  }, [searchText, selectedCategory, personData]);
 
   const handleSelect = (selectedItem) => {
     setSearchText(selectedItem.email_id);
@@ -165,7 +173,8 @@ const page = () => {
     });
     const data = await res.json();
     const machine_id = data.foundIssue.machine_id;
-    console.log(machine_id);
+    console.log( data.foundIssue.is_returnable);
+    //console.log(machine_id);
     console.log(data.foundIssue.due_date);
     const res2 = await fetch(
       `http://localhost:3000/api/machine/${machine_id}`,
@@ -177,7 +186,7 @@ const page = () => {
     console.log(data2.foundMachine.machine_name);
     return {
       machineName: data2.foundMachine.machine_name,
-      dueDate: data.foundIssue.due_date,
+      is_returnable: data.foundIssue.is_returnable,
     };
     if (res.ok) {
     }
@@ -208,6 +217,18 @@ const page = () => {
           onChange={handleSearchChange}
           className="w-80 px-4 py-2 ml-5  border border-gray-600 rounded-md focus:outline-none focus:border-blue-500"
         />
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="ml-4 px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:border-blue-500"
+        >
+          <option value="">Select Category</option>
+          <option value="ug">Undergraduate</option>
+          <option value="pg">Postgraduate</option>
+          <option value="phd">PHD</option>
+          <option value="prof">Professor</option>
+          <option value="other">Others</option>
+        </select>
       </div>
 
       <div className="overflow-hidden h-screen rounded-lg border border-gray-200 shadow-md m-5 mt-2">
@@ -230,78 +251,51 @@ const page = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {searchResults.length > 0
-              ? searchResults.map((person, personIndex) => (
-                  <tr className="hover:bg-gray-50" key={person._id}>
-                    <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                      <div class="text-sm">
-                        <div className="font-medium text-gray-700">
-                          {person.person_name}
-                        </div>
-                        <div className="text-gray-400">{person.email_id}</div>
+            {searchResults.length > 0 ? (
+              searchResults.map((person, personIndex) => (
+                <tr className="hover:bg-gray-50" key={person._id}>
+                  <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                    <div class="text-sm">
+                      <div className="font-medium text-gray-700">
+                        {person.person_name}
                       </div>
-                    </th>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                        <span className="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                        Cleared
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">{person.mobile_number}</td>
-                    <td className="px-3 py-4 ">
-                      <div className="flex justify-start gap-4">
-                        <Link href={`/deletePerson/${person._id}`}>
-                          <DeleteIcon></DeleteIcon>
-                        </Link>
-                        <Link
-                          x-data="{ tooltip: 'Edite' }"
-                          href={`/updatePerson/${person._id}`}
-                        >
-                          <EditIcon></EditIcon>
-                        </Link>
-                        <button onClick={() => handlePopupOpen(person)}>
-                          <HistoryIcon> </HistoryIcon>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              : persons &&
-                persons.map((person, personIndex) => (
-                  <tr className="hover:bg-gray-50" key={person._id}>
-                    <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                      <div class="text-sm">
-                        <div className="font-medium text-gray-700">
-                          {person.person_name}
-                        </div>
-                        <div className="text-gray-400">{person.email_id}</div>
-                      </div>
-                    </th>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                        <span className="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                        Cleared
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">{person.mobile_number}</td>
-                    <td className="px-3 py-4">
-                      <div className="flex justify-start gap-4">
-                        <Link href={`/deletePerson/${person._id}`}>
-                          <DeleteIcon></DeleteIcon>
-                        </Link>
-                        <Link
-                          x-data="{ tooltip: 'Edite' }"
-                          href={`/updatePerson/${person._id}`}
-                        >
-                          <EditIcon></EditIcon>
-                        </Link>
-                        <button onClick={() => handlePopupOpen(person)}>
-                          <HistoryIcon> </HistoryIcon>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      <div className="text-gray-400">{person.email_id}</div>
+                    </div>
+                  </th>
+                  <td className="px-6 py-4">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                      <span className="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                      Cleared
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">{person.mobile_number}</td>
+                  <td className="px-3 py-4 ">
+                    <div className="flex justify-start gap-4">
+                      <Link href={`/deletePerson/${person._id}`}>
+                        <DeleteIcon></DeleteIcon>
+                      </Link>
+                      <Link
+                        x-data="{ tooltip: 'Edite' }"
+                        href={`/updatePerson/${person._id}`}
+                      >
+                        <EditIcon></EditIcon>
+                      </Link>
+                      <button onClick={() => handlePopupOpen(person)}>
+                        <HistoryIcon> </HistoryIcon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="py-4">
+                  <div className="flex justify-center items-center h-full mt-8 text-lg">
+                    No Result Found
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
 
@@ -328,16 +322,20 @@ const page = () => {
                       Machine Name: {item.machineDetails.machineName}
                     </span>
                     <span className="mx-4">
-                      Due Data: {item.machineDetails.dueDate}
+                      Returnable: {item.machineDetails.is_returnable  ? "Yes" : "No"}
                     </span>
-                    <Button
-                      onClick={() =>
-                        handleEmailSend(selectedPersonId, item.itemId)
-                      }
-                    >
-                      <EmailIcon />
-                      Send Warning mail
-                    </Button>
+                    {item.machineDetails.is_returnable ? (
+                      <Button
+                        onClick={() =>
+                          handleEmailSend(selectedPersonId, item.itemId)
+                        }
+                      >
+                        <EmailIcon />
+                        Send Warning mail
+                      </Button>
+                    ) : (
+                      <span></span>
+                    )}
                     <Button
                       onClick={() =>
                         handleCurrentIssue(selectedPersonId, item.itemId)

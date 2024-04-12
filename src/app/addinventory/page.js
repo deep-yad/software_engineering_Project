@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import UpdateMachine from "../updateMachine/[id]/page";
+import UpdateMachine from "../(components)/UpdateForm";
 import mongoose from "mongoose";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -107,11 +107,8 @@ const MachineForm = () => {
         });
         console.log(result);
         setParentMachine(result);
-        toast.success("Machine Added Successfully")
-
       }
     } else {
-      toast.error("Something went wrong! Try again")
       throw new Error("Failed to create machine");
     }
     router.refresh();
@@ -139,7 +136,7 @@ const MachineForm = () => {
                   htmlFor="machine_name"
                   className="text-s font-semibold px-1"
                 >
-                  Machine Name:
+                  Component Name:
                 </label>
                 <input
                   type="text"
@@ -200,6 +197,7 @@ const MachineForm = () => {
                     className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                   />
                 </div>
+              </div>
                 <div className="mb-4">
                   <label
                     className="block text-s font-semibold"
@@ -230,38 +228,6 @@ const MachineForm = () => {
                     </option>
                   </select>
                 </div>
-              </div>
-              <div className="form-group">
-                <label className="text-s font-semibold px-1">
-                  <input
-                    type="checkbox"
-                    name="hasSubparts"
-                    checked={hasParent}
-                    onChange={handleChange}
-                    className="w-4 h-4 mr-2"
-                  />
-                  <span>Has Parent?</span>
-                </label>
-                {hasParent && (
-                  <div className="mt-2">
-                    <label className="text-s font-semibold px-1">
-                      Select Parent
-                    </label>
-                    <select
-                      className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
-                      value={selectedMachineId || ""}
-                      onChange={handleMachineChange}
-                    >
-                      <option value="">Select Machine</option>
-                      {machines.map((machine) => (
-                        <option key={machine.id} value={machine.id}>
-                          {machine.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-              </div>
               <div className="form-group">
                 <button
                   type="submit"
