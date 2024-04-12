@@ -144,17 +144,46 @@ function YourComponent() {
                   className="px-6 py-4 font-medium text-gray-900"
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
-                  {machine.available_quantity}
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
+                      machine.available_quantity / machine.total_quantity >
+                      0.5
+                        ? "bg-green-50 text-green-600"
+                        : machine.available_quantity /
+                            machine.total_quantity >
+                          0.2
+                        ? "bg-yellow-50 text-yellow-600"
+                        : "bg-red-50 text-red-600"
+                    }`}
+                  >
+                    {machine.available_quantity}
+                  </span>
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {machine.subparts.length === 0 ? (
-                    <span>No subparts</span>
-                  ) : (
-                    <span>
-                      {machine.subparts
-                        .map((item) => item.machine_id.toString())
-                        .join(", ")}
+                    <span className="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2 py-1 text-xs font-semibold text-orange-600">
+                      No subparts
                     </span>
+                  ) : (
+                    <div className="flex gap-2">
+                      {machine.subparts.map((subpart) => {
+                        const machineName = machines.find(
+                          (machine) =>
+                            machine._id.toString() ===
+                            subpart.machine_id.toString()
+                        )?.machine_name;
+                        return (
+                          machineName && (
+                            <span
+                              key={subpart.machine_id}
+                              className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+                            >
+                              {machineName}
+                            </span>
+                          )
+                        );
+                      })}
+                    </div>
                   )}
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900">
