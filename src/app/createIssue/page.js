@@ -75,13 +75,15 @@ const page = () => {
     if (res.ok) {
       const issue = await res.json();
       console.log(issue);
-      setSelectedPerson((prevPerson) => ({
-        ...prevPerson,
-        current: [...prevPerson.current, { issue_id: issue.id }],
-      }));
-      updatePerson(selectedPerson);
-      toast.success("Issue Created Successfully")
-
+      setSelectedPerson((prevPerson) => {
+        const updatedPerson = {
+          ...prevPerson,
+          current: [...prevPerson.current, { issue_id: issue.id }],
+        };
+        updatePerson(updatedPerson); // This will now be called after state is updated
+        toast.success("Issue Created Successfully")
+        return updatedPerson;
+      });
     } else {
       toast.error("Something went wrong! Try again")
       throw new Error("Failed to create ticket");
