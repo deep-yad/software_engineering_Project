@@ -73,6 +73,8 @@ const page = ({ params }) => {
     e.preventDefault();
     console.log(formData);
     formData.orders.push(orderFormData);
+    formData.total_quantity += orderFormData.quantity;
+    formData.available_quantity += orderFormData.quantity;    
     console.log(orderFormData);
 
     fetch(`http://localhost:3000/api/machine/${params.id}`, {
