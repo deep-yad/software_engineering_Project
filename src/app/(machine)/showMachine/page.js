@@ -138,7 +138,9 @@ function YourComponent() {
                   className="px-6 py-4 font-medium text-gray-900"
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
-                  {machine.total_quantity}
+                  <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                    {machine.total_quantity}
+                  </span>
                 </td>
                 <td
                   className="px-6 py-4 font-medium text-gray-900"
