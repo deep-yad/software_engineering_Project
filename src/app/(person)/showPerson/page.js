@@ -91,7 +91,7 @@ const page = () => {
         selectedPerson.current.map(async (item) => {
           const machineDetails = await handleGetIssueDetails(item.issue_id);
           return {
-            itemId: item._id,
+            itemId: item.issue_id,
             machineDetails: machineDetails,
           };
         })
@@ -106,7 +106,7 @@ const page = () => {
         selectedPerson.completed.map(async (item) => {
           const machineDetails = await handleGetIssueDetails(item.issue_id);
           return {
-            itemId: item._id,
+            itemId: item.issue_id,
             machineDetails: machineDetails,
           };
         })
@@ -157,6 +157,7 @@ const page = () => {
   };
   const handleCurrentIssue = async (userId, issueId) => {
     console.log(userId);
+    console.log(issueId)
     const formData = { userId: userId, issueId: issueId };
     const res = await fetch(`http://localhost:3000/api/updateIssue`, {
       method: "PUT",

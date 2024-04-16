@@ -22,7 +22,9 @@ const page = () => {
   let [formData, setFormData] = useState(defaultFormData);
   let [selectedPerson, setSelectedPerson] = useState(null);
   let [selectedMachine, setSelectedMachine] = useState(null);
+  let [selectedMachine1, setSelectedMachine1] = useState(null);
   let [machines, setMachines] = useState([]);
+  let [machinesNew, setMachinesNew] = useState([]);
   let [issue_id, set_issue_id] = useState(null);
   let [persons, setPersons] = useState([]);
 
@@ -62,6 +64,21 @@ const page = () => {
       throw new Error("Failed to update person.");
     }
   };
+  const updateMachine = async (machine) => {
+    const res = await fetch(`http://localhost:3000/api/machine/${machine._id}`, {
+      method: "PUT",
+      body: JSON.stringify({ formData: machine }),
+      //@ts-ignore
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    // console.log(formData.due_date);
+    console.log(res);
+    if (!res.ok) {
+      throw new Error("Failed to update person.");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,8 +98,18 @@ const page = () => {
           current: [...prevPerson.current, { issue_id: issue.id }],
         };
         updatePerson(updatedPerson); // This will now be called after state is updated
-        toast.success("Issue Created Successfully")
+        
         return updatedPerson;
+      });
+      setSelectedMachine1((prevMachine) => {
+        const updatedMachine = {
+          ...prevMachine,
+          available_quantity:prevMachine.available_quantity-1,
+        };
+        updateMachine(updatedMachine); // This will now be called after state is updated
+       // toast.success("Issue Created Successfully")
+        return updatedMachine;
+        toast.success("Issue Created Successfully")
       });
     } else {
       toast.error("Something went wrong! Try again")
@@ -100,6 +127,7 @@ const page = () => {
       });
 
       const data = await response.json();
+      setMachinesNew(data);
       for (let i = 0; i < data.length; i++) {
         names.push({ name: data[i].machine_name, id: data[i]._id });
       }
@@ -126,10 +154,14 @@ const page = () => {
     const selectedMachineObject = machines.find(
       (machine) => machine.id === selectedMachineId
     );
+    const selectedMachineObject1 = machinesNew.find(
+      (machine) => machine._id === selectedMachineId
+    );
     console.log(selectedMachineId);
     setFormData({ ...formData, machine_id: selectedMachineId });
     console.log("++_+", formData);
     selectedMachine = selectedMachineObject;
+    setSelectedMachine1(selectedMachineObject1);
     setSelectedMachine(selectedMachine);
   };
 

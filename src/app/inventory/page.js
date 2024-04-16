@@ -138,7 +138,20 @@ function YourComponent() {
                   className="px-6 py-4 font-medium text-gray-900"
                   // rowSpan={flattenSubparts(machine.subparts).length}
                 >
-                  {machine.available_quantity}
+                   <span
+                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${
+                      machine.available_quantity / machine.total_quantity >
+                      0.5
+                        ? "bg-green-50 text-green-600"
+                        : machine.available_quantity /
+                            machine.total_quantity >
+                          0.2
+                        ? "bg-yellow-50 text-yellow-600"
+                        : "bg-red-50 text-red-600"
+                    }`}
+                  >
+                    {machine.available_quantity}
+                  </span>
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {" "}

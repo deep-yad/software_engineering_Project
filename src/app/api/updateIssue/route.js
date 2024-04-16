@@ -1,4 +1,6 @@
 import Person from "@/app/models/person";
+import Issue from "@/app/models/issue";
+import Machine from "@/app/models/machine";
 import { NextResponse } from "next/server";
 export const dynamic = "force-static";
 
@@ -6,8 +8,15 @@ export async function PUT(req, res) {
   try {
     console.log("okkkkkkkkkkk");
     const { userId, issueId } = await req.json();
-    console.log(issueId);
+   // console.log(issueId);
     const person = await Person.findById(userId);
+    const issue = await Issue.findById(issueId);
+  //  console.log(issue);
+    const machine_id = issue.machine_id;
+  //  console.log(machine_id)
+    const machine = await Machine.findById(machine_id);
+   // console.log(machine);
+
     if (!person) {
       return NextResponse.json(
         { message: "person not found" },
@@ -15,8 +24,12 @@ export async function PUT(req, res) {
       );
     }
     console.log(person.current);
+    if (issue.is_returnable) {
+      machine.available_quantity = machine.available_quantity + 1;
+    }
+    machine.save();
     const currentIssueIndex = person.current.findIndex(
-      (item) => item._id.toString() === issueId.toString()
+      (item) => item.issue_id.toString() === issueId.toString()
     );
     console.log(currentIssueIndex);
     if (currentIssueIndex === -1) {
