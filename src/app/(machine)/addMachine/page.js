@@ -166,7 +166,7 @@ const MachineForm = () => {
                 />
               </div>
               <div className="flex -mx-3 mb-3">
-                <div className="w-1/2 px-3 mb-5">
+                <div className="w-1/2 px-3 ">
                   <label
                     htmlFor="total_quantity"
                     className="text-s font-semibold px-1"
@@ -183,7 +183,7 @@ const MachineForm = () => {
                     className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                   />
                 </div>
-                <div className="w-1/2 px-3 mb-5">
+                <div className="w-1/2 px-3">
                   <label
                     htmlFor="available_quantity"
                     className="text-s font-semibold px-1"
@@ -200,36 +200,36 @@ const MachineForm = () => {
                     className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                   />
                 </div>
-                <div className="mb-4">
-                  <label
-                    className="block text-s font-semibold"
-                    htmlFor="machine_id"
-                  >
-                    Category
-                  </label>
-                  <select
-                    className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    id="machine_id"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select Category</option>
-                    <option value="electronicStudio">
-                      Electronic Studio Design
-                    </option>
-                    <option value="mechanicalStudio">Mechanical Studio</option>
-                    <option value="fabricationStudio">
-                      Precision Fabrication
-                    </option>
-                    <option value="manufacturingStudio">
-                      Advanced Manufacturing Studio
-                    </option>
-                    <option value="robotics&Drone">
-                      Robotics and Drone Studio
-                    </option>
-                  </select>
-                </div>
+              </div>
+              <div className="mb-4 px-0.5">
+                <label
+                  className="block text-s font-semibold"
+                  htmlFor="machine_id"
+                >
+                  Category
+                </label>
+                <select
+                  className="w-full ml-0 pl-1 pr-3 py-2 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
+                  id="machine_id"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Category</option>
+                  <option value="electronicStudio">
+                    Electronic Studio Design
+                  </option>
+                  <option value="mechanicalStudio">Mechanical Studio</option>
+                  <option value="fabricationStudio">
+                    Precision Fabrication
+                  </option>
+                  <option value="manufacturingStudio">
+                    Advanced Manufacturing Studio
+                  </option>
+                  <option value="robotics&Drone">
+                    Robotics and Drone Studio
+                  </option>
+                </select>
               </div>
               <div className="form-group">
                 <label className="text-s font-semibold px-1">
@@ -248,7 +248,7 @@ const MachineForm = () => {
                       Select Parent
                     </label>
                     <select
-                      className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
+                      className="w-full ml-0 pl-1 pr-3 py-2 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                       value={selectedMachineId || ""}
                       onChange={handleMachineChange}
                     >
@@ -265,7 +265,7 @@ const MachineForm = () => {
               <div className="form-group">
                 <button
                   type="submit"
-                  className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"
+                  className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg mt-8 px-3 py-2 font-semibold"
                 >
                   Submit
                 </button>

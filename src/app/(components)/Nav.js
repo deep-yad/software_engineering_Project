@@ -21,6 +21,10 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
 import AddCardIcon from '@mui/icons-material/AddCard';
+import ChairAltIcon from '@mui/icons-material/ChairAlt';
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
+import ArticleIcon from '@mui/icons-material/Article';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const drawerWidth = 265;
 
@@ -71,7 +75,7 @@ const Nav = () => {
         </List>
         <Divider />
         <List>
-          <ListItem key={"Dashboard"} disablePadding>
+          <ListItem key={"Dashboard"} className="mx-4" disablePadding>
             <Link href="/dashboard">
               <ListItemButton>
                 <ListItemIcon>
@@ -82,7 +86,7 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Persons"} disablePadding>
+          <ListItem key={"Persons"} className="mx-4" disablePadding>
             <Link href="/showPerson">
               <ListItemButton>
                 <ListItemIcon>
@@ -93,7 +97,7 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Machines"} disablePadding>
+          <ListItem key={"Machines"} className="mx-4" disablePadding>
             <Link href="showMachine">
               <ListItemButton>
                 <ListItemIcon>
@@ -104,11 +108,11 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Create Issue"} disablePadding>
+          <ListItem key={"Create Issue"} className="mx-4" disablePadding>
              <Link href="/inventory">
               <ListItemButton>
                 <ListItemIcon>
-                  <AddCardIcon className="text-indigo-500 text-2xl"/>
+                  <ChairAltIcon className="text-indigo-500 text-2xl font-bold"/>
                 </ListItemIcon>
                 <Typography variant="h7" className="text-lg font-semibold">Inventory</Typography>
               </ListItemButton>
@@ -117,7 +121,7 @@ const Nav = () => {
         </List>
         <Divider />
         <List>
-          <ListItem key={"Add Person"} disablePadding>
+          <ListItem key={"Add Person"} className="mx-4" disablePadding>
             <Link href="/createPerson">
               <ListItemButton>
                 <ListItemIcon>
@@ -128,18 +132,18 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Add Machine"} disablePadding>
+          <ListItem key={"Add Machine"} className="mx-4" disablePadding>
             <Link href="/addMachine">
               <ListItemButton>
                 <ListItemIcon>
-                  <CoffeeMakerIcon className="text-indigo-500 text-2xl"/>
+                  <AddShoppingCartIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
                 {/* <ListItemText primary={"Add Machine"} /> */}
                 <Typography variant="h7" className="text-lg font-semibold">Add Machine</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Create Issue"} disablePadding>
+          <ListItem key={"Create Issue"} className="mx-4" disablePadding>
             <Link href="/createIssue">
               <ListItemButton>
                 <ListItemIcon>
@@ -149,22 +153,22 @@ const Nav = () => {
               </ListItemButton>
             </Link>
           </ListItem>
-          <ListItem key={"Create Issue"} disablePadding>
+          <ListItem key={"Create Issue"} className="mx-4 mb-2" disablePadding>
              <Link href="/addinventory">
               <ListItemButton>
                 <ListItemIcon>
-                  <AddCardIcon className="text-indigo-500 text-2xl"/>
+                  <DomainAddIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
                 <Typography variant="h7" className="text-lg font-semibold">Add Inventory</Typography>
               </ListItemButton>
             </Link>
           </ListItem>
-         
-          <ListItem key={"Create Issue"} disablePadding>
+          <Divider/>
+          <ListItem key={"Create Issue"} className="mx-4 mt-2" disablePadding>
              <Link href="/pdf">
-              <ListItemButton>
+              <ListItemButton >
                 <ListItemIcon>
-                  <AddCardIcon className="text-indigo-500 text-2xl"/>
+                  <ArticleIcon className="text-indigo-500 text-2xl"/>
                 </ListItemIcon>
                 <Typography variant="h7" className="text-lg font-semibold">Get Report</Typography>
               </ListItemButton>

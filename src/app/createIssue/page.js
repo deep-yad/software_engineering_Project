@@ -178,26 +178,28 @@ const page = () => {
   };
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-       <ToastContainer />
-      <div className="sm:max-w-xl sm:mx-auto">
-        <div className="bg-white shadow-lg sm:rounded-3xl sm:p-8">
-          <h2 className="text-3xl text-gray-900 text-center mb-8 font-bold">
-            Enter Issue Details
-          </h2>
+       {/* <ToastContainer /> */}
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+      <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-2xl sm:p-20">
+        <div className="w-full max-w-md mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl text-gray-900 text-center mb-8 font-bold">Enter Issue Details</h2>
+          </div>
           <form
-            className="space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+            className="form space-y-4 text-gray-700 sm:text-lg sm:leading-7"
             method="post"
             onSubmit={handleSubmit}
           >
-            <div className="mb-4">
+            <div className="form-group">
               <label
-                className="block text-s font-semibold"
+                className="text-s font-semibold px-1"
                 htmlFor="machine_id"
               >
                 Machine ID
               </label>
               <select
-                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full ml-0 pl-1 pr-3 py-1.5 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                 id="machine_id"
                 value={selectedMachine?.id || ""}
                 onChange={handleMachineChange}
@@ -210,12 +212,12 @@ const page = () => {
                 ))}
               </select>
             </div>
-            <div className="mb-4">
-              <label className="block text-s font-semibold" htmlFor="person_id">
+            <div className="form-group">
+              <label className="text-s font-semibold px-1" htmlFor="person_id">
                 Person ID
               </label>
               <select
-                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full ml-0 pl-1 pr-3 py-1.5 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                 id="person_id"
                 value={selectedPerson?._id || ""}
                 onChange={handlePersonChange}
@@ -228,15 +230,15 @@ const page = () => {
                 ))}
               </select>
             </div>
-            <div className="mb-4">
+            <div className="form group flex items-center">
               <label
-                className="block text-s font-semibold"
+                className="text-s font-semibold px-1 mr-3"
                 htmlFor="is_returnable"
               >
                 Is Returnable
               </label>
               <select
-                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-1/4 mt-1 py-1 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 id="is_returnable"
                 name="is_returnable"
                 value={formData.is_returnable}
@@ -247,15 +249,15 @@ const page = () => {
               </select>
             </div>
 
-            <div className="mb-4">
+            <div className="form-group">
               <label
-                className="block text-s font-semibold"
+                className="text-s font-semibold px-1"
                 htmlFor="description"
               >
                 Description
               </label>
               <input
-                className="w-full mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full ml-0 pl-1 pr-3 py-1.5 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                 type="text"
                 id="description"
                 name="description"
@@ -276,9 +278,9 @@ const page = () => {
                 onChange={handleChange}
               />
             </div> */}
-            <div className="text-center">
+            <div className="form-group">
               <button
-                className="w-full py-3 px-6 bg-indigo-600 text-white rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 mt-8 font-semibold"
                 type="submit"
               >
                 Create Issue
@@ -286,6 +288,7 @@ const page = () => {
             </div>
           </form>
         </div>
+      </div>
       </div>
     </div>
   );

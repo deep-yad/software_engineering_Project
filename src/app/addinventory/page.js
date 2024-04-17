@@ -124,7 +124,7 @@ const MachineForm = () => {
           <div className="w-full max-w-md mx-auto">
             <div className="text-center mb-10">
               <h2 className="font-bold text-3xl text-gray-900">
-                Enter Machine Details
+                Enter Component Details
               </h2>
             </div>
             <form
@@ -162,8 +162,8 @@ const MachineForm = () => {
                   className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                 />
               </div>
-              <div className="flex -mx-3 mb-3">
-                <div className="w-1/2 px-3 mb-5">
+              <div className="flex -mx-3 ">
+                <div className="w-1/2 px-3">
                   <label
                     htmlFor="total_quantity"
                     className="text-s font-semibold px-1"
@@ -180,7 +180,7 @@ const MachineForm = () => {
                     className="w-full ml-0 pl-1 pr-3 py-1 rounded-lg border-2 border-gray-300 outline-none focus:border-indigo-500"
                   />
                 </div>
-                <div className="w-1/2 px-3 mb-5">
+                <div className="w-1/2 px-3">
                   <label
                     htmlFor="available_quantity"
                     className="text-s font-semibold px-1"
@@ -198,9 +198,9 @@ const MachineForm = () => {
                   />
                 </div>
               </div>
-                <div className="mb-4">
+                <div className="mb-4 pl-0.5" >
                   <label
-                    className="block text-s font-semibold"
+                    className="block text-s font-semibold "
                     htmlFor="machine_id"
                   >
                     Category
@@ -231,7 +231,7 @@ const MachineForm = () => {
               <div className="form-group">
                 <button
                   type="submit"
-                  className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"
+                  className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 mt-8 font-semibold"
                 >
                   Submit
                 </button>
